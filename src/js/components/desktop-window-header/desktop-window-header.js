@@ -16,18 +16,32 @@ template.innerHTML = `
         height: 20px;
         width: 100%;
         background: gray;
+        position: relative;
     }
 
-</style><!-- 
-<div id="topBar"></div>
-<div id="windowWrapper">
-</div> -->
+    button {
+        position: absolute;
+        height: 17px;
+        width: 17px;
+        padding: 0 3px;
+        margin: 0;
+        left: 90%;
+        text-decoration: none;
+        font-size: 80%;
+        font-weight: bold;
+        border: none;
+        box-shadow: 1px 1px 2px black;
+        background-color: #4CAF50;
+    }
+
+</style>
+<button id="closeButton">X</button>
  `
 
 /*
  * Define custom element.
  */
-customElements.define('desktop-screen-header',
+customElements.define('desktop-window-header',
   /**
    * Represents a component.
    */
@@ -39,6 +53,14 @@ customElements.define('desktop-screen-header',
       super()
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+      this.closeButton = this.shadowRoot.querySelector('#closeButton')
+
+      this.closeButton.addEventListener('click', (event) => {
+        this.dispatchEvent(new window.CustomEvent('closeWindow', {
+          bubbles: true
+        }))
+      })
     }
 
     /**

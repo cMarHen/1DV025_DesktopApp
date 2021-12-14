@@ -6,7 +6,6 @@
  */
 
 import '../desktop-screen-window'
-import '../desktop-screen-header'
 
 /*
 * Define template.
@@ -36,11 +35,11 @@ template.innerHTML = `
       height: min-content;
     }
 
-    desktop-screen-window {
+/*     desktop-screen-window {
       height: 300px;
       width: 300px;
-    }
-
+    } */
+/* 
     #downRight {
       background-color: red;
       height: 8px;
@@ -60,19 +59,14 @@ template.innerHTML = `
       top: 99%;
       z-index: 3;
       cursor: nesw-resize;
-    }
+    } */
 
     /* #windowWrapper > * {
       position: absolute;
     } */
 
 </style>
-<div id="windowWrapper">
-  <desktop-screen-header draggable="true"></desktop-screen-header>
-  <desktop-screen-window></desktop-screen-window>
-  <div id="downLeft"></div>
-  <div id="downRight"></div>
-</div>
+  <desktop-screen-window id="emptyWindow"></desktop-screen-window>
 
 `
 
@@ -92,39 +86,7 @@ customElements.define('desktop-screen',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.windowWrapper = this.shadowRoot.querySelector('#windowWrapper')
-      this.windowScreen = this.shadowRoot.querySelector('desktop-screen-window')
-      this.screenHeader = this.shadowRoot.querySelector('desktop-screen-header')
-
-      this.mouseMoveDragging = this.mouseMoveDragging.bind(this)
-
-      this.screenHeader.addEventListener('dragstart', this.mouseMoveDragging)
-
-      this.addEventListener('dragend', (event) => {
-        this.screenHeader.removeEventListener('dragstart', this.mouseMoveDragging)
-      })
-    }
-
-    /**
-     * Handles window moving.
-     *
-     * @param {*} event - The event.
-     */
-    mouseMoveDragging (event) {
-      let pointerX = event.clientX
-      let pointerY = event.clientY
-
-      this.addEventListener('dragover', (event) => {
-        const windowX = pointerX - event.clientX
-        const windowY = pointerY - event.clientY
-        pointerX = event.clientX
-        pointerY = event.clientY
-
-        this.windowWrapper.style.left = `${this.windowWrapper.offsetLeft - windowX}px`
-        this.windowWrapper.style.top = `${this.windowWrapper.offsetTop - windowY}px`
-        event.stopPropagation()
-        event.preventDefault()
-      })
+      this.windowScreen = this.shadowRoot.querySelector('#emptyWindow')
     }
 
     /**
