@@ -5,59 +5,29 @@
  * @version 1.1.0
  */
 
-import '../desktop-navbar'
-import '../desktop-screen'
-
 /*
-* Define template.
-*/
+ * Define template.
+ */
 const template = document.createElement('template')
 template.innerHTML = `
    <style>
-     :host {
+    :host {
         display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-     }
-
-     #navWrapper {
+        height: 20px;
         width: 100%;
-        height: min-content;
-        width: 100vw;
-        display: flex;
-        justify-content: center;
-        border-bottom: 2px solid green;
-     }
+        background: gray;
+    }
 
-     #windowWrapper {
-         display: flex;
-         height: 100%;
-         width: 100%;
-     }
-   </style>
-   <div id="navWrapper">
-       <desktop-navbar>
-           <!-- 
-               USING SLOT ?
-               ICON 1
-               ICON 2
-               ...
-            -->
-       </desktop-navbar>
-   </div>
-   <div id="windowWrapper">
-       <desktop-screen></desktop-screen>
-   </div>
+</style><!-- 
+<div id="topBar"></div>
+<div id="windowWrapper">
+</div> -->
  `
 
 /*
-* Define custom element.
-*/
-customElements.define('desktop-main',
+ * Define custom element.
+ */
+customElements.define('desktop-screen-header',
   /**
    * Represents a component.
    */

@@ -12,7 +12,13 @@ const template = document.createElement('template')
 template.innerHTML = `
    <style>
      :host {
-       
+       display: flex;
+       height: 13vh;
+       min-height: 30px;
+       max-height: 50px;
+       width: 60vw;
+       margin: 5px;
+       background-color: blue;
      }
    </style>
    <div>
