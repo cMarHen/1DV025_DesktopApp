@@ -3,6 +3,8 @@ html, body {
 	padding: 0;
 	height: min-content;
 	width: min-content;
+	overflow-y: hidden;
+    overflow-x: hidden;
 	background: radial-gradient(antiquewhite, rgb(228, 202, 177));
 }
 

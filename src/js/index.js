@@ -5,4 +5,4 @@
  * @version 1.0.0
  */
 
-import './components/desktop-main'
+import './components/desktop-screen'

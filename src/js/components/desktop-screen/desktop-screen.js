@@ -6,6 +6,9 @@
  */
 
 import '../desktop-screen-window'
+import '../desktop-navbar'
+
+import '../test-component'
 
 /*
 * Define template.
@@ -15,18 +18,24 @@ template.innerHTML = `
 <style>
     :host {
         display: flex;
-        height: 100%;
-        width: 100%;
+        height: 100vh;
+        width: 100vw;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         background: white;
         box-shadow: inset 1px 1px 4px gray;
         position: relative;
     }
 
-    #test {
-      height: 100px;
-      width: 100px;
-      background: black;
-    }
+    #navWrapper {
+        width: 100%;
+        height: min-content;
+        background: antiquewhite;
+        display: flex;
+        justify-content: center;
+        border-bottom: 2px solid green;
+     }
 
     #windowWrapper {
       position: absolute;
@@ -35,38 +44,29 @@ template.innerHTML = `
       height: min-content;
     }
 
-/*     desktop-screen-window {
-      height: 300px;
-      width: 300px;
-    } */
-/* 
-    #downRight {
-      background-color: red;
-      height: 8px;
-      width: 8px;
-      position: absolute;
-      left: 99%;
-      top: 99%;
-      z-index: 3;
-      cursor: nwse-resize;
+    ::part(contentWindow) {
+      border-radius: 30px;
     }
-    #downLeft {
-      background-color: red;
-      height: 8px;
-      width: 8px;
-      position: absolute;
-      left: -1%;
-      top: 99%;
-      z-index: 3;
-      cursor: nesw-resize;
-    } */
 
-    /* #windowWrapper > * {
-      position: absolute;
-    } */
+    .icon{
+      height: 50px;
+      width: 50px;
+      background: red;
+    }
 
 </style>
-  <desktop-screen-window id="emptyWindow"></desktop-screen-window>
+<div id="navWrapper">
+       <desktop-navbar>
+         <!-- <test-component class="icon" slot="icon5"></test-component> -->
+          <div class="icon" slot="icon1"></div>
+          <div class="icon" slot="icon2"></div>
+          <div class="icon" slot="icon3"></div>
+          <div class="icon" slot="icon4"></div>
+       </desktop-navbar>
+   </div>
+  <desktop-screen-window>
+   <p slot="test">Hej</p>
+  </desktop-screen-window>
 
 `
 

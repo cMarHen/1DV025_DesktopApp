@@ -38,6 +38,10 @@ template.innerHTML = `
          height: 100%;
          width: 100%;
      }
+
+     desktop-screen {
+       left: 100px;
+     }
    </style>
    <div id="navWrapper">
        <desktop-navbar>

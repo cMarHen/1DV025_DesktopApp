@@ -12,7 +12,9 @@ const template = document.createElement('template')
 template.innerHTML = `
    <style>
     :host {
-        margin: 20px;
+      
+      min-height: 200px;
+        min-width: 200px;
     }
 
     #window {
@@ -43,9 +45,15 @@ template.innerHTML = `
       cursor: nesw-resize;
     }
     
+    ::slotted {
+      height: 100%;
+      width: 100%;
+    }
+    
 </style>
 
-  <div id="window">
+  <div id="window" part="contentWindow" draggable="true">
+    <slot name="test2"></slot>
     <div id="downLeft" draggable="true"></div>
     <div id="downRight" draggable="true"></div>
   </div>
@@ -67,7 +75,7 @@ customElements.define('desktop-window-body',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.window = this.shadowRoot.querySelector('#window')
+      this.windowWrapper = this.shadowRoot.querySelector('#window')
       this.resizeDownLeft = this.shadowRoot.querySelector('#downLeft')
       this.resizeDownRight = this.shadowRoot.querySelector('#downRight')
 
@@ -78,16 +86,12 @@ customElements.define('desktop-window-body',
      * Resizing the window.
      */
     resizingRight () {
-      this.window.addEventListener('dragover', (event) => {
-        console.log('hej')
-        console.log(event.clientX)
-        console.log(event.clientY)
-        /* this.window.style.width = `${event.clientX}px`
-        this.window.style.height = `${event.clientY}px` */
+      this.windowWrapper.addEventListener('mousemove', (event) => {
+        const width = event.offsetX < 200 ? 200 : event.offsetX
+        const height = event.offsetY < 200 ? 200 : event.offsetY
 
-        event.stopPropagation()
-        event.stopImmediatePropagation()
-        event.preventDefault()
+        this.windowWrapper.style.width = `${width}px`
+        this.windowWrapper.style.height = `${height}px`
       })
     }
 
@@ -95,13 +99,16 @@ customElements.define('desktop-window-body',
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
-      this.resizeDownRight.addEventListener('dragstart', this.resizingRight)
+      // Det här i det omgivande elementet kanske?
+      // this.resizeDownRight.addEventListener('dragstart', this.resizingRight)
 
       this.resizeDownRight.addEventListener('dragend', (event) => {
         this.resizeDownRight.removeEventListener('dragstart', this.resizingRight)
-        event.stopPropagation()
-        event.stopImmediatePropagation()
-        event.preventDefault()
+      })
+
+      this.addEventListener('click', (event) => {
+        console.log(event.offsetY)
+        console.log(event.clientY)
       })
     }
 

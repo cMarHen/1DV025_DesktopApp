@@ -11,17 +11,44 @@
 const template = document.createElement('template')
 template.innerHTML = `
    <style>
+
      :host {
        display: flex;
-       height: 13vh;
-       min-height: 30px;
-       max-height: 50px;
-       width: 60vw;
+       height: 80%;
+       width: min-content;
        margin: 5px;
-       background-color: blue;
+       border-radius: 5px;
+       box-shadow: inset 0 0 3px black;
+       border: 2px solid black;
      }
+
+     #iconWrapper {
+       display: inherit;
+       padding: 5px;
+       width: 100%;
+       justify-content: center;
+       align-items: center;
+     }
+
+     ::slotted(*) {
+       display: flex;
+       border-radius: 10px;
+       margin: 4px;
+       border: 2px solid black;
+     }
+
+     ::slotted(*:hover) {
+      box-shadow: inset 0 0 4px black;
+     }
+
    </style>
-   <div>
+   <div id="iconWrapper">
+     <slot name="icon1" class="icon"></slot>
+     <slot name="icon2"></slot>
+     <slot name="icon3"></slot>
+     <slot name="icon4"></slot>
+     <slot name="icon5"></slot>
+     <slot name="icon6"></slot>
    </div>
  `
 

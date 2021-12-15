@@ -28,12 +28,16 @@ template.innerHTML = `
     box-shadow: inset 1px 1px 4px gray;
     border: 2px solid black;
     height: min-content;
+
     }
+
 
 </style>
 <div id="windowWrapper">
 <desktop-window-header draggable="true"></desktop-window-header>
-<desktop-window-body></desktop-window-body>
+<desktop-window-body>
+  <slot name="test" slot="test2"></slot>
+</desktop-window-body>
 </div>
 
 `
@@ -57,6 +61,7 @@ customElements.define('desktop-screen-window',
       this.windowWrapper = this.shadowRoot.querySelector('#windowWrapper')
       this.windowScreen = this.shadowRoot.querySelector('desktop-window-window')
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
+      this.screenRect = this.getBoundingClientRect()
       /* this.resizeDownLeft = this.shadowRoot.querySelector('#downLeft')
        this.resizeDownRight = this.shadowRoot.querySelector('#downRight') */
 
@@ -85,8 +90,6 @@ customElements.define('desktop-screen-window',
       this.pointerX = event.clientX
       this.pointerY = event.clientY
 
-      console.log(this.pointerX, this.pointerY)
-
       event.dataTransfer.setDragImage(event.target, window.outerWidth, window.outerHeight)
 
       this.windowWrapper.addEventListener('dragover', this.windowDragOver)
@@ -98,18 +101,42 @@ customElements.define('desktop-screen-window',
      * @param {*} event - The event.
      */
     windowDragOver (event) {
+      const wrapperRect = this.windowWrapper.getBoundingClientRect()
+
+      // To update the coordinates.
       const windowX = this.pointerX - event.clientX
       const windowY = this.pointerY - event.clientY
       this.pointerX = event.clientX
       this.pointerY = event.clientY
 
-      /* console.log(event.clientY)
-        console.log(event.clientX) */
+      let left = this.windowWrapper.offsetLeft - windowX
+      let top = this.windowWrapper.offsetTop - windowY
 
-      this.windowWrapper.style.left = `${this.windowWrapper.offsetLeft - windowX}px`
-      this.windowWrapper.style.top = `${this.windowWrapper.offsetTop - windowY}px`
+      // Handle x-lead dragging stop.
+      if (this.windowWrapper.offsetLeft < 0) {
+        left = 0
+      } else if (this.windowWrapper.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
+        left = this.windowWrapper.offsetLeft - 6
+      }
+
+      // Handle y-lead dragging stop.
+      if (this.windowWrapper.offsetTop < 0) {
+        top = 0
+      } else if (this.windowWrapper.offsetTop + wrapperRect.height >= this.screenRect.height - 6) {
+        top = this.windowWrapper.offsetTop - 6
+      }
+
+      /* console.log(wrapperRect) */
+      // console.log(this.windowWrapper.offsetLeft)
+
+      this.windowWrapper.style.left = `${left}px`
+      this.windowWrapper.style.top = `${top}px`
       event.stopPropagation()
       event.preventDefault()
+    }
+
+    stopDragging (event) {
+
     }
 
     /**
