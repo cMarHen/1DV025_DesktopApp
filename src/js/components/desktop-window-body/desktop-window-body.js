@@ -12,15 +12,12 @@ const template = document.createElement('template')
 template.innerHTML = `
    <style>
     :host {
-      
-      min-height: 200px;
-        min-width: 200px;
     }
 
     #window {
         display: flex;
-        height: 300px;
-        width: 300px;
+        height: 50vh;
+        width: 50vw;
         background: white;
     }
 
@@ -45,15 +42,15 @@ template.innerHTML = `
       cursor: nesw-resize;
     }
     
-    ::slotted {
-      height: 100%;
+    /* ::slotted(*) {
+      height: 80px;
       width: 100%;
-    }
+    } */
     
 </style>
 
   <div id="window" part="contentWindow" draggable="true">
-    <slot name="test2"></slot>
+    <slot name="app"></slot>
     <div id="downLeft" draggable="true"></div>
     <div id="downRight" draggable="true"></div>
   </div>

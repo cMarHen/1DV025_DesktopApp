@@ -67,6 +67,12 @@ customElements.define('desktop-navbar',
       super()
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+      this.iconWrapper = this.shadowRoot.querySelector('#iconWrapper')
+
+      this.iconWrapper.addEventListener('click', (event) => {
+        console.log(event.target.id)
+      })
     }
 
     /**

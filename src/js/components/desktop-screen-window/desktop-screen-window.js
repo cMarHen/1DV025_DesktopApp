@@ -28,7 +28,7 @@ template.innerHTML = `
     box-shadow: inset 1px 1px 4px gray;
     border: 2px solid black;
     height: min-content;
-
+      
     }
 
 
@@ -36,7 +36,7 @@ template.innerHTML = `
 <div id="windowWrapper">
 <desktop-window-header draggable="true"></desktop-window-header>
 <desktop-window-body>
-  <slot name="test" slot="test2"></slot>
+  <slot name="app" slot="app"></slot>
 </desktop-window-body>
 </div>
 
@@ -133,10 +133,6 @@ customElements.define('desktop-screen-window',
       this.windowWrapper.style.top = `${top}px`
       event.stopPropagation()
       event.preventDefault()
-    }
-
-    stopDragging (event) {
-
     }
 
     /**

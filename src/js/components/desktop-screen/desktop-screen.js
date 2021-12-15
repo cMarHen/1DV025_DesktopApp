@@ -7,8 +7,7 @@
 
 import '../desktop-screen-window'
 import '../desktop-navbar'
-
-import '../test-component'
+import '../memory-application'
 
 /*
 * Define template.
@@ -48,6 +47,11 @@ template.innerHTML = `
       border-radius: 30px;
     }
 
+    desktop-screen-window > * {
+      width: 100%;
+      height: 100%;
+    }
+
     .icon{
       height: 50px;
       width: 50px;
@@ -56,16 +60,23 @@ template.innerHTML = `
 
 </style>
 <div id="navWrapper">
+  <!-- Img-taggar i slotten? -->
        <desktop-navbar>
-         <!-- <test-component class="icon" slot="icon5"></test-component> -->
-          <div class="icon" slot="icon1"></div>
-          <div class="icon" slot="icon2"></div>
-          <div class="icon" slot="icon3"></div>
+          <div id="chat" class="icon" slot="icon1">
+            <h5>Chat</h5>
+          </div>
+          <div id="memory" class="icon" slot="icon2">
+            <h5>Memory</h5>
+          </div>
+          <div id="shooter" class="icon" slot="icon3">
+          <h5>Shooter</h5>
+          </div>
+          
           <div class="icon" slot="icon4"></div>
        </desktop-navbar>
    </div>
   <desktop-screen-window>
-   <p slot="test">Hej</p>
+    <memory-application slot="app"></memory-application>
   </desktop-screen-window>
 
 `
