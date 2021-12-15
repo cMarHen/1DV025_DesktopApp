@@ -27,13 +27,11 @@ template.innerHTML = `
     #mainArea > * {
         display: flex;
         justify-self: center;
-        max-width: 80%;
-        max-height: 80%;
     }
 
     flipping-tile::part(card) {
-        height: 50px;
-        width: 50px;
+        height: 10vh;
+        width: 10vh;
         margin: 0;
     }
     flipping-tile::part(back) {
@@ -157,8 +155,8 @@ customElements.define('memory-area',
     createGrid (column, row) {
       if ((column * row) % 2 !== 0) { return }
 
-      this.mainArea.style.gridTemplateColumns = `repeat(${column}, 10vw)`
-      this.mainArea.style.gridTemplateRows = `repeat(${row}, 10vh)`
+      this.mainArea.style.gridTemplateColumns = `repeat(${column}, 15vw)`
+      this.mainArea.style.gridTemplateRows = `repeat(${row}, 13vh)`
 
       for (const tile of this.createTileArray(column * row)) {
         this.mainArea.append(tile)

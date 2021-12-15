@@ -16,8 +16,8 @@ template.innerHTML = `
 
     #window {
         display: flex;
-        height: 50vh;
-        width: 50vw;
+        height: 60vh;
+        width: 60vw;
         background: white;
     }
 
@@ -26,8 +26,8 @@ template.innerHTML = `
       height: 8px;
       width: 8px;
       position: absolute;
-      left: 99%;
-      top: 99%;
+      left: 97%;
+      top: 96%;
       z-index: 3;
       cursor: nwse-resize;
     }
@@ -36,8 +36,8 @@ template.innerHTML = `
       height: 8px;
       width: 8px;
       position: absolute;
-      left: -1%;
-      top: 99%;
+      left: 4px;
+      top: 96%;
       z-index: 3;
       cursor: nesw-resize;
     }
@@ -76,20 +76,28 @@ customElements.define('desktop-window-body',
       this.resizeDownLeft = this.shadowRoot.querySelector('#downLeft')
       this.resizeDownRight = this.shadowRoot.querySelector('#downRight')
 
+      this.resizingRightStart = this.resizingRightStart.bind(this)
       this.resizingRight = this.resizingRight.bind(this)
     }
 
     /**
      * Resizing the window.
      */
-    resizingRight () {
-      this.windowWrapper.addEventListener('mousemove', (event) => {
-        const width = event.offsetX < 200 ? 200 : event.offsetX
-        const height = event.offsetY < 200 ? 200 : event.offsetY
+    resizingRightStart () {
+      this.addEventListener('dragover', this.resizingRight)
+    }
 
-        this.windowWrapper.style.width = `${width}px`
-        this.windowWrapper.style.height = `${height}px`
-      })
+    /**
+     * Resizing the window.
+     *
+     * @param {*} event - The event.
+     */
+    resizingRight (event) {
+      console.log(event.offsetY)
+      this.windowWrapper.style.width = `${event.offsetX + 7}px`
+      this.windowWrapper.style.height = `${event.offsetY + 7}px`
+      event.stopPropagation()
+      event.preventDefault()
     }
 
     /**
@@ -97,15 +105,10 @@ customElements.define('desktop-window-body',
      */
     connectedCallback () {
       // Det här i det omgivande elementet kanske?
-      // this.resizeDownRight.addEventListener('dragstart', this.resizingRight)
+      this.resizeDownRight.addEventListener('dragstart', this.resizingRightStart)
 
       this.resizeDownRight.addEventListener('dragend', (event) => {
-        this.resizeDownRight.removeEventListener('dragstart', this.resizingRight)
-      })
-
-      this.addEventListener('click', (event) => {
-        console.log(event.offsetY)
-        console.log(event.clientY)
+        this.removeEventListener('dragover', this.resizingRight)
       })
     }
 

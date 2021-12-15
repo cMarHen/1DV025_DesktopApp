@@ -20,7 +20,7 @@ template.innerHTML = `
         height: 100vh;
         width: 100vw;
         flex-direction: column;
-        justify-content: center;
+        justify-content: space-between;
         align-items: center;
         background: white;
         box-shadow: inset 1px 1px 4px gray;
@@ -28,6 +28,7 @@ template.innerHTML = `
     }
 
     #navWrapper {
+      align-self: flex-start;
         width: 100%;
         height: min-content;
         background: antiquewhite;
@@ -36,15 +37,20 @@ template.innerHTML = `
         border-bottom: 2px solid green;
      }
 
-    #windowWrapper {
-      position: absolute;
+    #desktopScreen {
       box-shadow: inset 1px 1px 4px gray;
       border: 2px solid black;
-      height: min-content;
+      height: 80vh;
+      width: 100%;
     }
 
     ::part(contentWindow) {
       border-radius: 30px;
+    }
+
+    desktop-screen-window {
+      width: 100%;
+      height: 100%;
     }
 
     desktop-screen-window > * {
@@ -59,8 +65,14 @@ template.innerHTML = `
     }
 
 </style>
+<!-- Allting som heter "windowWrapper i screen-window måste hit." -->
+    <desktop-screen-window>
+      <memory-application slot="app"></memory-application>
+    </desktop-screen-window>
+
 <div id="navWrapper">
   <!-- Img-taggar i slotten? -->
+  <!-- Ikoner till höger, med en döljfunktion -->
        <desktop-navbar>
           <div id="chat" class="icon" slot="icon1">
             <h5>Chat</h5>
@@ -75,9 +87,14 @@ template.innerHTML = `
           <div class="icon" slot="icon4"></div>
        </desktop-navbar>
    </div>
-  <desktop-screen-window>
-    <memory-application slot="app"></memory-application>
-  </desktop-screen-window>
+
+
+
+  <template id="memoryTemplate">
+    <desktop-screen-window>
+      <memory-application slot="app"></memory-application>
+    </desktop-screen-window>
+  </template>
 
 `
 
@@ -98,6 +115,15 @@ customElements.define('desktop-screen',
         .appendChild(template.content.cloneNode(true))
 
       this.windowScreen = this.shadowRoot.querySelector('#emptyWindow')
+      this.navBar = this.shadowRoot.querySelector('desktop-navbar')
+
+      this.navBar.addEventListener('icon-request', (event) => {
+        console.log(event.detail.id)
+      })
+    }
+
+    appendNewWindow (id) {
+
     }
 
     /**

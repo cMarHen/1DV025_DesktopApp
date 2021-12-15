@@ -25,10 +25,12 @@ template.innerHTML = `
 
     #windowWrapper {
     position: absolute;
+    top: 20px;
+    left: 20px;
     box-shadow: inset 1px 1px 4px gray;
     border: 2px solid black;
     height: min-content;
-      
+
     }
 
 
@@ -62,12 +64,12 @@ customElements.define('desktop-screen-window',
       this.windowScreen = this.shadowRoot.querySelector('desktop-window-window')
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
       this.screenRect = this.getBoundingClientRect()
-      /* this.resizeDownLeft = this.shadowRoot.querySelector('#downLeft')
-       this.resizeDownRight = this.shadowRoot.querySelector('#downRight') */
+
+      // console.log(this.screenRect)
+      console.log(this.clientHeight)
 
       this.windowDragStart = this.windowDragStart.bind(this)
       this.windowDragOver = this.windowDragOver.bind(this)
-      /* this.resizingRight = this.resizingRight.bind(this) */
 
       this.screenHeader.addEventListener('closeWindow', (event) => {
         console.log('ta bort')
@@ -114,16 +116,22 @@ customElements.define('desktop-screen-window',
 
       // Handle x-lead dragging stop.
       if (this.windowWrapper.offsetLeft < 0) {
-        left = 0
+        left = 2
       } else if (this.windowWrapper.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
         left = this.windowWrapper.offsetLeft - 6
       }
 
+      console.log(this.windowWrapper.offsetTop)
+      console.log(wrapperRect.height)
+      console.log('----------------')
+      console.log(this.screenRect.height)
+
       // Handle y-lead dragging stop.
-      if (this.windowWrapper.offsetTop < 0) {
-        top = 0
-      } else if (this.windowWrapper.offsetTop + wrapperRect.height >= this.screenRect.height - 6) {
+      if (this.windowWrapper.offsetTop <= 3) {
+        top = 4
+      } else if (this.windowWrapper.offsetTop + wrapperRect.height >= window.innerHeight) {
         top = this.windowWrapper.offsetTop - 6
+        console.log('hejdååå')
       }
 
       /* console.log(wrapperRect) */
