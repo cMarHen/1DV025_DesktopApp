@@ -16,15 +16,16 @@ template.innerHTML = `
 <style>
     :host {
         display: flex;
+        background: green;
         height: 100%;
         width: 100%;
-        background: white;
         box-shadow: inset 1px 1px 4px gray;
-        position: relative;
     }
 
     #windowWrapper {
     position: absolute;
+    
+    background: blue;
     top: 20px;
     left: 20px;
     box-shadow: inset 1px 1px 4px gray;
@@ -35,13 +36,17 @@ template.innerHTML = `
 
 
 </style>
-<div id="windowWrapper">
 <desktop-window-header draggable="true"></desktop-window-header>
 <desktop-window-body>
   <slot name="app" slot="app"></slot>
 </desktop-window-body>
-</div>
-
+<!-- <div id="windowWrapper">
+<desktop-window-header draggable="true"></desktop-window-header>
+<desktop-window-body>
+  <slot name="app" slot="app"></slot>
+</desktop-window-body>
+</div> -->
+<!-- HÄR BÖRJAR JAG ÄNDRA!! -->
 `
 
 /*
@@ -60,11 +65,12 @@ customElements.define('desktop-screen-window',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.windowWrapper = this.shadowRoot.querySelector('#windowWrapper')
       this.windowScreen = this.shadowRoot.querySelector('desktop-window-window')
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
       this.screenRect = this.getBoundingClientRect()
 
+
+      // ÄNDRAR LYSSNARNA NU!!!!!
       // console.log(this.screenRect)
       console.log(this.clientHeight)
 
@@ -72,15 +78,17 @@ customElements.define('desktop-screen-window',
       this.windowDragOver = this.windowDragOver.bind(this)
 
       this.screenHeader.addEventListener('closeWindow', (event) => {
-        console.log('ta bort')
+        this.dispatchEvent(new window.CustomEvent('closeWindow', {
+          bubbles: true
+        }))
       })
 
       // Listener for screen dragging.
-      this.screenHeader.addEventListener('dragstart', this.windowDragStart)
+      // this.screenHeader.addEventListener('dragstart', this.windowDragStart)
 
-      this.screenHeader.addEventListener('dragend', (event) => {
-        this.windowWrapper.removeEventListener('dragover', this.windowDragOver)
-      })
+      /* this.screenHeader.addEventListener('dragend', (event) => {
+        this.removeEventListener('dragover', this.windowDragOver)
+      }) */
     }
 
     /**
@@ -94,7 +102,7 @@ customElements.define('desktop-screen-window',
 
       event.dataTransfer.setDragImage(event.target, window.outerWidth, window.outerHeight)
 
-      this.windowWrapper.addEventListener('dragover', this.windowDragOver)
+      this.addEventListener('dragover', this.windowDragOver)
     }
 
     /**
@@ -103,7 +111,7 @@ customElements.define('desktop-screen-window',
      * @param {*} event - The event.
      */
     windowDragOver (event) {
-      const wrapperRect = this.windowWrapper.getBoundingClientRect()
+      const wrapperRect = this.getBoundingClientRect()
 
       // To update the coordinates.
       const windowX = this.pointerX - event.clientX
@@ -111,34 +119,42 @@ customElements.define('desktop-screen-window',
       this.pointerX = event.clientX
       this.pointerY = event.clientY
 
-      let left = this.windowWrapper.offsetLeft - windowX
-      let top = this.windowWrapper.offsetTop - windowY
+      let left = this.offsetLeft - windowX
+      let top = this.offsetTop - windowY
 
       // Handle x-lead dragging stop.
-      if (this.windowWrapper.offsetLeft < 0) {
+      if (this.offsetLeft < 0) {
         left = 2
-      } else if (this.windowWrapper.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
-        left = this.windowWrapper.offsetLeft - 6
+      } else if (this.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
+        left = this.offsetLeft - 6
       }
 
-      console.log(this.windowWrapper.offsetTop)
+      /* console.log(this.offsetTop)
       console.log(wrapperRect.height)
       console.log('----------------')
-      console.log(this.screenRect.height)
+      console.log(this.screenRect.height) */
 
       // Handle y-lead dragging stop.
-      if (this.windowWrapper.offsetTop <= 3) {
+      if (this.offsetTop <= 3) {
         top = 4
-      } else if (this.windowWrapper.offsetTop + wrapperRect.height >= window.innerHeight) {
-        top = this.windowWrapper.offsetTop - 6
+      } else if (this.offsetTop + wrapperRect.height >= window.innerHeight) {
+        top = this.offsetTop - 6
         console.log('hejdååå')
       }
+
+      this.dispatchEvent(new CustomEvent('move-window', {
+        bubbles: true,
+        detail: {
+          x: left,
+          y: top
+        }
+      }))
 
       /* console.log(wrapperRect) */
       // console.log(this.windowWrapper.offsetLeft)
 
-      this.windowWrapper.style.left = `${left}px`
-      this.windowWrapper.style.top = `${top}px`
+      /* this.style.left = `${left}px`
+      this.style.top = `${top}px` */
       event.stopPropagation()
       event.preventDefault()
     }
@@ -155,7 +171,7 @@ customElements.define('desktop-screen-window',
      * @returns {string[]} A string array of attributes to monitor.
      */
     static get observedAttributes () {
-      return ['value']
+      return ['name']
     }
 
     /**
@@ -166,8 +182,8 @@ customElements.define('desktop-screen-window',
      * @param {*} newValue - The new value.
      */
     attributeChangedCallback (name, oldValue, newValue) {
-      if (name === newValue) {
-        console.log()
+      if (name === 'name') {
+        this.name = newValue
       }
     }
   }

@@ -16,8 +16,8 @@ template.innerHTML = `
 
     #window {
         display: flex;
-        height: 60vh;
-        width: 60vw;
+        height: 100%;
+        width: 100%;
         background: white;
     }
 

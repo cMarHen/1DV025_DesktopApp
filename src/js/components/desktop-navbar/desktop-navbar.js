@@ -14,16 +14,22 @@ template.innerHTML = `
 
      :host {
        display: flex;
-       height: 80%;
+       height: 100%;
+       background: rgba(78,205,242,0.5);
+       border-radius: 10px;
+       border: 1px solid rgba(78,205,242,1);
        width: min-content;
-       margin: 5px;
-       border-radius: 5px;
-       box-shadow: inset 0 0 3px black;
-       border: 2px solid black;
+       transform: translateY(70px);
+       transition: 1000ms;
+     }
+
+     :host(:hover) {
+       transition: 700ms;
+       transform: translateY(20px);
      }
 
      #iconWrapper {
-       display: inherit;
+       display: flex;
        padding: 5px;
        width: 100%;
        justify-content: center;
@@ -41,9 +47,22 @@ template.innerHTML = `
       box-shadow: inset 0 0 4px black;
      }
 
+     .icon {
+       height: 110%;
+       width: 70px;
+       background: radial-gradient(circle, rgba(111,200,240,1) 28%, rgba(32,122,194,1) 79%);
+       margin: 4px;
+       border-radius: 15px 15px 2px 2px;
+     }
+
    </style>
    <div id="iconWrapper">
-     <slot name="icon1" class="icon"></slot>
+     <div class="icon"></div>
+     <div class="icon"></div>
+     <div class="icon"></div>
+     <div class="icon"></div>
+
+     <slot name="icon1"></slot>
      <slot name="icon2"></slot>
      <slot name="icon3"></slot>
      <slot name="icon4"></slot>

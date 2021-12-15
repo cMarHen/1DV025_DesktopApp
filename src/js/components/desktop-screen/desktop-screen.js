@@ -9,6 +9,8 @@ import '../desktop-screen-window'
 import '../desktop-navbar'
 import '../memory-application'
 
+const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
+
 /*
 * Define template.
 */
@@ -22,59 +24,56 @@ template.innerHTML = `
         flex-direction: column;
         justify-content: space-between;
         align-items: center;
-        background: white;
+        background-image: url(${BACKGROUND_IMG});
+        background-size: 100%;
+        background-repeat: no-repeat;
+        background-position: cover;
         box-shadow: inset 1px 1px 4px gray;
         position: relative;
     }
 
     #navWrapper {
+      display: flex;
       align-self: flex-start;
         width: 100%;
-        height: min-content;
-        background: antiquewhite;
-        display: flex;
+        height: 100px;
         justify-content: center;
-        border-bottom: 2px solid green;
      }
 
     #desktopScreen {
-      box-shadow: inset 1px 1px 4px gray;
-      border: 2px solid black;
-      height: 80vh;
-      width: 100%;
-    }
-
-    ::part(contentWindow) {
-      border-radius: 30px;
+      height: 100vh;
+      width: 100vw;
+      position: relative;
     }
 
     desktop-screen-window {
-      width: 100%;
-      height: 100%;
+      width: 300px;
+      height: 300px;
+      position: absolute;
+      left: 20px;
     }
 
-    desktop-screen-window > * {
-      width: 100%;
-      height: 100%;
-    }
-
-    .icon{
+    /* .icon{
       height: 50px;
       width: 50px;
       background: red;
-    }
+    } */
 
 </style>
-<!-- Allting som heter "windowWrapper i screen-window måste hit." -->
-    <desktop-screen-window>
-      <memory-application slot="app"></memory-application>
+<div id="desktopScreen">
+    
+    <desktop-screen-window id="window2">
+      <!-- <memory-application slot="app"></memory-application> -->
     </desktop-screen-window>
+</div>
+<!-- Allting som heter "windowWrapper i screen-window måste hit." -->
+
 
 <div id="navWrapper">
   <!-- Img-taggar i slotten? -->
   <!-- Ikoner till höger, med en döljfunktion -->
        <desktop-navbar>
-          <div id="chat" class="icon" slot="icon1">
+       <!--    <div id="chat" class="icon" slot="icon1">
             <h5>Chat</h5>
           </div>
           <div id="memory" class="icon" slot="icon2">
@@ -82,16 +81,16 @@ template.innerHTML = `
           </div>
           <div id="shooter" class="icon" slot="icon3">
           <h5>Shooter</h5>
-          </div>
+          </div> 
           
-          <div class="icon" slot="icon4"></div>
+          <div class="icon" slot="icon4"></div> -->
        </desktop-navbar>
    </div>
 
 
 
-  <template id="memoryTemplate">
-    <desktop-screen-window>
+  <template name="memoryTemplate">
+    <desktop-screen-window name="window1">
       <memory-application slot="app"></memory-application>
     </desktop-screen-window>
   </template>
@@ -114,16 +113,86 @@ customElements.define('desktop-screen',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.windowScreen = this.shadowRoot.querySelector('#emptyWindow')
+      this.desktopScreen = this.shadowRoot.querySelector('#desktopScreen')
       this.navBar = this.shadowRoot.querySelector('desktop-navbar')
 
+      this.screenRect = this.getBoundingClientRect()
+      this.windowDragStart = this.windowDragStart.bind(this)
+      this.windowDragOver = this.windowDragOver.bind(this)
+
       this.navBar.addEventListener('icon-request', (event) => {
-        console.log(event.detail.id)
+        console.log(event.target.id)
+      })
+
+      this.desktopScreen.addEventListener('closeWindow', (event) => {
+        this.desktopScreen.removeChild(event.target)
+      })
+
+      this.desktopScreen.addEventListener('dragstart', this.windowDragStart)
+
+      this.desktopScreen.addEventListener('dragend', (event) => {
+        this.removeEventListener('dragover', this.windowDragOver)
       })
     }
 
     appendNewWindow (id) {
 
+    }
+
+    /**
+     * Handles window start dragging.
+     *
+     * @param {*} event - The event.
+     */
+    windowDragStart (event) {
+      this.windowElement = this.shadowRoot.querySelector(`#${event.target.id}`)
+      this.pointerX = event.clientX
+      this.pointerY = event.clientY
+
+      event.dataTransfer.setDragImage(event.target, window.outerWidth, window.outerHeight)
+
+      this.addEventListener('dragover', this.windowDragOver)
+    }
+
+    /**
+     * Handles window moving.
+     *
+     * @param {*} event - The event.
+     */
+    windowDragOver (event) {
+      const wrapperRect = this.windowElement.getBoundingClientRect()
+
+      // To update the coordinates.
+      const windowX = this.pointerX - event.clientX
+      const windowY = this.pointerY - event.clientY
+      this.pointerX = event.clientX
+      this.pointerY = event.clientY
+
+      let left = this.windowElement.offsetLeft - windowX
+      let top = this.windowElement.offsetTop - windowY
+
+      // Handle x-lead dragging stop.
+      if (this.windowElement.offsetLeft < 0) {
+        left = 2
+      } else if (this.windowElement.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
+        left = this.windowElement.offsetLeft - 6
+      }
+
+      // Handle y-lead dragging stop.
+      if (this.windowElement.offsetTop <= 3) {
+        top = 4
+      } else if (this.windowElement.offsetTop + wrapperRect.height >= window.innerHeight) {
+        top = this.windowElement.offsetTop - 6
+      }
+
+
+      /* console.log(wrapperRect) */
+      // console.log(this.windowWrapper.offsetLeft)
+
+      this.windowElement.style.left = `${left}px`
+      this.windowElement.style.top = `${top}px`
+      event.stopPropagation()
+      event.preventDefault()
     }
 
     /**
@@ -138,7 +207,7 @@ customElements.define('desktop-screen',
      * @returns {string[]} A string array of attributes to monitor.
      */
     static get observedAttributes () {
-      return ['value']
+      return ['name']
     }
 
     /**
@@ -149,8 +218,8 @@ customElements.define('desktop-screen',
      * @param {*} newValue - The new value.
      */
     attributeChangedCallback (name, oldValue, newValue) {
-      if (name === newValue) {
-        console.log()
+      if (name === 'name') {
+        this.id = name
       }
     }
   }
