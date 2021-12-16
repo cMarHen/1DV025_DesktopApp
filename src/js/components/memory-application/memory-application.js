@@ -25,8 +25,8 @@ template.innerHTML = `
     }
 
     #levelChoice {
-      height: 20%;
-        margin: 3px 0 15px 0;
+      height: 10%;
+        margin: 3px 0 0 0;
     }
 
     #levelChoice button {
@@ -35,7 +35,8 @@ template.innerHTML = `
     }
 
     #appArea {
-        height: 60%;
+        height: 100%;
+        overflow: hidden;
         width: 100%;
     }
 
@@ -112,7 +113,7 @@ customElements.define('memory-application',
         if (event.target.name) {
           this.memoryArea.setAttribute('difficulty', event.target.name)
           this.memoryArea.removeAttribute('hidden')
-          this.levelChoice.style.display = 'none'
+          // this.levelChoice.style.display = 'none'
         }
       })
 

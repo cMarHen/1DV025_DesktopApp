@@ -19,8 +19,7 @@ template.innerHTML = `
 
     #mainArea {
         display: grid;
-        grid-gap: auto;
-        
+        box-sizing: border-box;
         overflow: hidden;
     }
 
@@ -31,7 +30,7 @@ template.innerHTML = `
 
     flipping-tile::part(card) {
         height: 10vh;
-        width: 10vh;
+        width: 6vw;
         margin: 0;
     }
     flipping-tile::part(back) {

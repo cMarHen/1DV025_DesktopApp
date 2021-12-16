@@ -13,14 +13,16 @@ template.innerHTML = `
    <style>
     :host {
         display: flex;
+        justify-content: flex-end;
         height: 20px;
         width: 100%;
-        background: gray;
+        background: rgba(78, 205, 242, 0.4);
+        border-radius: 5px 5px 0 0;
+        box-shadow: inset 1px 1px 4px gray;
         position: relative;
     }
 
     button {
-        position: absolute;
         height: 17px;
         width: 17px;
         padding: 0 3px;

@@ -47,8 +47,8 @@ template.innerHTML = `
     }
 
     desktop-screen-window {
-      width: 300px;
-      height: 300px;
+      width: min-content;
+      height: min-content;
       position: absolute;
       left: 20px;
     }
@@ -63,7 +63,7 @@ template.innerHTML = `
 <div id="desktopScreen">
     
     <desktop-screen-window id="window2">
-      <!-- <memory-application slot="app"></memory-application> -->
+      <memory-application slot="app"></memory-application>
     </desktop-screen-window>
 </div>
 <!-- Allting som heter "windowWrapper i screen-window måste hit." -->

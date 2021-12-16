@@ -49,7 +49,7 @@ template.innerHTML = `
     
 </style>
 
-  <div id="window" part="contentWindow" draggable="true">
+  <div id="window" part="contentWindow">
     <slot name="app"></slot>
     <div id="downLeft" draggable="true"></div>
     <div id="downRight" draggable="true"></div>

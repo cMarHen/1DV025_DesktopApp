@@ -16,30 +16,22 @@ template.innerHTML = `
 <style>
     :host {
         display: flex;
-        background: green;
         height: 100%;
         width: 100%;
-        box-shadow: inset 1px 1px 4px gray;
     }
 
     #windowWrapper {
-    position: absolute;
-    
-    background: blue;
-    top: 20px;
-    left: 20px;
-    box-shadow: inset 1px 1px 4px gray;
-    border: 2px solid black;
-    height: min-content;
 
     }
 
 
 </style>
-<desktop-window-header draggable="true"></desktop-window-header>
-<desktop-window-body>
-  <slot name="app" slot="app"></slot>
-</desktop-window-body>
+<div id="windowWrapper">
+  <desktop-window-header draggable="true"></desktop-window-header>
+  <desktop-window-body>
+    <slot name="app" slot="app"></slot>
+  </desktop-window-body>
+  </div>
 <!-- <div id="windowWrapper">
 <desktop-window-header draggable="true"></desktop-window-header>
 <desktop-window-body>
