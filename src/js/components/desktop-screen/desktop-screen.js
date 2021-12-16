@@ -8,6 +8,7 @@
 import '../desktop-screen-window'
 import '../desktop-navbar'
 import '../memory-application'
+import '../shooter-area-main'
 
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 
@@ -62,9 +63,14 @@ template.innerHTML = `
 </style>
 <div id="desktopScreen">
     
-    <desktop-screen-window id="window2">
+    <!-- <desktop-screen-window id="window2">
       <memory-application slot="app"></memory-application>
+    </desktop-screen-window> -->
+    <desktop-screen-window id="window2">
+      <shooter-area-main slot="app"></shooter-area-main>
     </desktop-screen-window>
+
+    <!-- <shooter-area-main></shooter-area-main> -->
 </div>
 <!-- Allting som heter "windowWrapper i screen-window måste hit." -->
 

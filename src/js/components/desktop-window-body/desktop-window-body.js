@@ -12,6 +12,7 @@ const template = document.createElement('template')
 template.innerHTML = `
    <style>
     :host {
+      
     }
 
     #window {
@@ -19,6 +20,7 @@ template.innerHTML = `
         height: 100%;
         width: 100%;
         background: white;
+        overflow: hidden;
     }
 
     #downRight {
