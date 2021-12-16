@@ -38,9 +38,13 @@ template.innerHTML = `
 
      ::slotted(*) {
        display: flex;
-       border-radius: 10px;
+       justify-content: center;
+       align-items: flex-start;
+       height: 110%;
+       width: 70px;
+       background: radial-gradient(circle, rgba(111,200,240,1) 28%, rgba(32,122,194,1) 79%);
        margin: 4px;
-       border: 2px solid black;
+       border-radius: 15px 15px 2px 2px;
      }
 
      ::slotted(*:hover) {
@@ -56,18 +60,18 @@ template.innerHTML = `
      }
 
    </style>
-   <div id="iconWrapper">
+   <div id="iconWrapper"><!-- 
      <div class="icon"></div>
      <div class="icon"></div>
      <div class="icon"></div>
-     <div class="icon"></div>
+     <div class="icon"></div> -->
 
-     <slot name="icon1"></slot>
-     <slot name="icon2"></slot>
-     <slot name="icon3"></slot>
-     <slot name="icon4"></slot>
-     <slot name="icon5"></slot>
-     <slot name="icon6"></slot>
+     <slot class="icon" name="icon1"></slot>
+     <slot class="icon" name="icon2"></slot>
+     <slot class="icon" name="icon3"></slot>
+     <slot class="icon" name="icon4"></slot>
+     <slot class="icon" name="icon5"></slot>
+     <slot class="icon" name="icon6"></slot>
    </div>
  `
 

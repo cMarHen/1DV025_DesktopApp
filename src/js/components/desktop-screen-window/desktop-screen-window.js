@@ -69,6 +69,12 @@ customElements.define('desktop-screen-window',
       this.windowDragStart = this.windowDragStart.bind(this)
       this.windowDragOver = this.windowDragOver.bind(this)
 
+      this.addEventListener('mousedown', (event) => {
+        this.dispatchEvent(new window.CustomEvent('require-focus', {
+          bubbles: true
+        }))
+      })
+
       this.screenHeader.addEventListener('closeWindow', (event) => {
         this.dispatchEvent(new window.CustomEvent('closeWindow', {
           bubbles: true
@@ -163,7 +169,7 @@ customElements.define('desktop-screen-window',
      * @returns {string[]} A string array of attributes to monitor.
      */
     static get observedAttributes () {
-      return ['name']
+      return ['zindex']
     }
 
     /**
@@ -174,8 +180,8 @@ customElements.define('desktop-screen-window',
      * @param {*} newValue - The new value.
      */
     attributeChangedCallback (name, oldValue, newValue) {
-      if (name === 'name') {
-        this.name = newValue
+      if (name === 'zindex') {
+        this.style.zIndex = newValue
       }
     }
   }
