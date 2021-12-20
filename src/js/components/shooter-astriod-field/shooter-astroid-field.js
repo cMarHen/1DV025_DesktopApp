@@ -138,13 +138,14 @@ customElements.define('shooter-astroid-field',
 
       this.astroidField.addEventListener('astroid-shot', (event) => {
         this.#score += 1
+        console.log(this.#score)
         this.scoreBoard.setAttribute('value', this.#score)
       })
 
       this.astroidField.addEventListener('animationend', (event) => {
         // setInterval on this??
         this.astroidField.innerHTML = ''
-      this.tickingUpTimer.stopTimer()
+        this.tickingUpTimer.stopTimer()
         clearTimeout(this.playTimer)
         this.dispatchEvent(new window.CustomEvent('game-over', {
           bubbles: true,
