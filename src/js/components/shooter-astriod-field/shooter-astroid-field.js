@@ -138,7 +138,6 @@ customElements.define('shooter-astroid-field',
 
       this.astroidField.addEventListener('astroid-shot', (event) => {
         this.#score += 1
-        console.log(this.#score)
         this.scoreBoard.setAttribute('value', this.#score)
       })
 
@@ -197,14 +196,6 @@ customElements.define('shooter-astroid-field',
         this.speedID = this.speedID - 50
         this.playTimer = setTimeout(play.bind(this), 1000)
       }.bind(this), 1000)
-
-/*       // TIMER
-      const start = Date.now() / 1000
-
-      this.timerID = setInterval(() => {
-        this.counter = (Date.now() / 1000 - start).toFixed(2)
-        this.timer.textContent = `${this.counter}`
-      }, 10) */
     }
 
     /**

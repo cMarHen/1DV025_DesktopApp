@@ -61,9 +61,6 @@ customElements.define('desktop-screen-window',
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
       this.screenRect = this.getBoundingClientRect()
 
-
-      // ÄNDRAR LYSSNARNA NU!!!!!
-      // console.log(this.screenRect)
       console.log(this.clientHeight)
 
       this.windowDragStart = this.windowDragStart.bind(this)

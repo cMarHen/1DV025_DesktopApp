@@ -69,26 +69,41 @@ customElements.define('memory-area',
       // EVENT LISTENERS
       // -----------------
       this.compareContainer = []
-      this.mainArea.addEventListener('flipped', (event) => {
-        if (this.compareContainer.length >= 2) {
-          event.target.removeAttribute('flipped')
-        } else {
-          this.compareContainer.push(event.target)
-          // Sätt ID korten.
-        /*   if (event.target.hasAttribute('flipped')) {
-            event.target.removeAttribute('flipped')
-            this.compareContainer = []
-          } else {
-            this.compareContainer.push(event.target)
-          } */
-        }
+      this.mainArea.addEventListener('flipping-tile:flipped', this.onFlippedEvent.bind(this))
+    }
 
-        if (this.compareContainer.length === 2) {
-          this.tileIsEqual(this.compareContainer[0], this.compareContainer[1])
+    /**
+     * Check gameboard and flipped tiles.
+     *
+     * @param {*} event - The event.
+     */
+    onFlippedEvent (event) {
+/*       if (this.compareContainer[0]) {
+        console.log(this.compareContainer[0].id)
+        if (this.compareContainer[0].id !== event.target.id) {
+          this.compareContainer.push(event.target)
         }
-        event.preventDefault()
-        event.stopPropagation()
-      })
+      } else {
+        this.compareContainer.push(event.target)
+      } */
+
+      console.log(event.target)
+      
+      this.compareContainer.push(event.target)
+      
+      console.log(this.compareContainer)
+      if (this.compareContainer.length >= 2) {
+        event.target.removeAttribute('flipped')
+      }
+
+      if (this.compareContainer.length === 2) {
+        this.tileIsEqual(this.compareContainer[0], this.compareContainer[1])
+        this.compareContainer = []
+      }
+
+      // console.log(this.compareContainer)
+      event.preventDefault()
+      event.stopPropagation()
     }
 
     /**
@@ -98,7 +113,6 @@ customElements.define('memory-area',
      * @param {*} tile2 Second tile.
      */
     tileIsEqual (tile1, tile2) {
-      console.log(tile1.isEqual(tile2))
       setTimeout(() => {
         if (tile1.isEqual(tile2)) {
           tile1.setAttribute('hidden', '')
@@ -114,8 +128,6 @@ customElements.define('memory-area',
           }))
         }
       }, 1000)
-
-      this.compareContainer = []
     }
 
     /**
@@ -164,8 +176,11 @@ customElements.define('memory-area',
       this.mainArea.style.gridTemplateColumns = `repeat(${column}, 15vw)`
       this.mainArea.style.gridTemplateRows = `repeat(${row}, 13vh)`
 
+      let i = 0
       for (const tile of this.createTileArray(column * row)) {
+        tile.id = i
         this.mainArea.append(tile)
+        i++
       }
     }
 

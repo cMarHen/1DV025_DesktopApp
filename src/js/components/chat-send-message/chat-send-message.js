@@ -12,14 +12,38 @@ const template = document.createElement('template')
 template.innerHTML = `
    <style>
      :host {
+         display: flex;
+         justify-content: space-around;
+         align-items: center;
      }
+
+     #textField {
+         background: red;
+         height: 100px;
+         width: 100%;
+     }
+
+     #textField input {
+         height: 100%;
+         width: 100%;
+     }
+
+     #sendButton {
+         margin: 6px;
+     }
+
    </style>
+
+   <div id="textField">
+       <input type="text">
+   </div>
+       <button id="sendButton">SEND</button>
  `
 
 /*
 * Define custom element.
 */
-customElements.define('desktop-main',
+customElements.define('chat-send-message',
   /**
    * Represents a component.
    */
