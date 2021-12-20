@@ -21,6 +21,7 @@ template.innerHTML = `
        width: min-content;
        transform: translateY(70px);
        transition: 1000ms;
+       z-index: Infinity;
      }
 
      :host(:hover) {

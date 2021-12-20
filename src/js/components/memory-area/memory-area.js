@@ -69,15 +69,22 @@ customElements.define('memory-area',
       // EVENT LISTENERS
       // -----------------
       this.compareContainer = []
-      this.mainArea.addEventListener('flipping-tile:flipped', (event) => {
+      this.mainArea.addEventListener('flipped', (event) => {
         if (this.compareContainer.length >= 2) {
           event.target.removeAttribute('flipped')
         } else {
           this.compareContainer.push(event.target)
+          // Sätt ID korten.
+        /*   if (event.target.hasAttribute('flipped')) {
+            event.target.removeAttribute('flipped')
+            this.compareContainer = []
+          } else {
+            this.compareContainer.push(event.target)
+          } */
+        }
 
-          if (this.compareContainer.length === 2) {
-            this.tileIsEqual(this.compareContainer[0], this.compareContainer[1])
-          }
+        if (this.compareContainer.length === 2) {
+          this.tileIsEqual(this.compareContainer[0], this.compareContainer[1])
         }
         event.preventDefault()
         event.stopPropagation()

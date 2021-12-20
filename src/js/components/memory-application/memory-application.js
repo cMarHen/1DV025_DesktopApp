@@ -6,6 +6,7 @@
  */
 
 import '../memory-area'
+import '../my-custom-timer'
 
 /*
 * Define template.
@@ -55,7 +56,12 @@ template.innerHTML = `
         border-left: 1px solid gray;
         padding-left: 10px;
         display: inherit;
-        flex-direction: column;
+    }
+
+    ::part(tickingUp) {
+      color: #4E3B3B;
+      font-size: 1.1em;
+      margin-left: 5px;
     }
 
 </style>
@@ -72,7 +78,7 @@ template.innerHTML = `
   </h5>
       <h5>Points: <span id="pointCounter">0</span>
   </h5>
-      <h5>TIME: <span id="timeCounter">20:00</span>
+      <h5>TIME: <span id="timeCounter"> <my-custom-timer></my-custom-timer></span>
   </h5>
 </div>
 `
@@ -104,6 +110,8 @@ customElements.define('memory-application',
       this.memoryArea = this.shadowRoot.querySelector('memory-area')
       this.pointCounter = this.shadowRoot.querySelector('#pointCounter')
       this.tryCounter = this.shadowRoot.querySelector('#tryCounter')
+      this.timeCounter = this.shadowRoot.querySelector('#timeCounter')
+      this.tickingUpTimer = this.shadowRoot.querySelector('my-custom-timer')
 
       // -----------------
       // EVENT LISTENERS
@@ -113,7 +121,7 @@ customElements.define('memory-application',
         if (event.target.name) {
           this.memoryArea.setAttribute('difficulty', event.target.name)
           this.memoryArea.removeAttribute('hidden')
-          // this.levelChoice.style.display = 'none'
+          this.tickingUpTimer.startTimer(10, 2)
         }
       })
 
@@ -123,34 +131,6 @@ customElements.define('memory-application',
       this.memoryArea.addEventListener('noMatch', (event) => {
         this.updateScoreNomatch()
       })
-    }
-
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
-    }
-
-    /**
-     * Attributes to monitor for changes.
-     *
-     * @returns {string[]} A string array of attributes to monitor.
-     */
-    static get observedAttributes () {
-      return ['boardsize']
-    }
-
-    /**
-     * Called when observed attribute(s) changes.
-     *
-     * @param {string} name - The attribute's name.
-     * @param {*} oldValue - The old value.
-     * @param {*} newValue - The new value.
-     */
-    attributeChangedCallback (name, oldValue, newValue) {
-      if (name === 'def') {
-        // this.#def()
-      }
     }
 
     /**

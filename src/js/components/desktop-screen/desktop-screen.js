@@ -9,6 +9,7 @@ import '../desktop-screen-window'
 import '../desktop-navbar'
 import '../memory-application'
 import '../shooter-area-main'
+import '../my-custom-timer'
 
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 const ASTROID_SHOOTER_ICON = (new URL('./images/shooter-icon.png', import.meta.url)).href
@@ -70,12 +71,13 @@ template.innerHTML = `
 
 </style>
 <div id="desktopScreen">
-<!--     <desktop-screen-window id="window2" zindex="2">
+    <desktop-screen-window id="window2" zindex="2">
       <shooter-area-main slot="app"></shooter-area-main>
     </desktop-screen-window>
-    <desktop-screen-window name="window1">
+    <!-- <desktop-screen-window name="window1">
       <memory-application slot="app"></memory-application>
     </desktop-screen-window> -->
+    <!-- <my-custom-timer></my-custom-timer> -->
 </div>
 
 
