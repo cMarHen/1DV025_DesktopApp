@@ -18,9 +18,9 @@ template.innerHTML = `
      }
 
      #textField {
-         background: red;
+         display: flex;
          height: 100px;
-         width: 100%;
+         width: 90%;
      }
 
      #textField input {
@@ -33,11 +33,10 @@ template.innerHTML = `
      }
 
    </style>
-
-   <div id="textField">
-       <input type="text">
-   </div>
+    <form id="textField">
+       <input id="textInput" type="text">
        <button id="sendButton">SEND</button>
+    </form>
  `
 
 /*
@@ -55,6 +54,16 @@ customElements.define('chat-send-message',
       super()
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+      this.sendButton = this.shadowRoot.querySelector('#sendButton')
+      this.textInput = this.shadowRoot.querySelector('#textInput')
+
+      this.sendButton.addEventListener('click', (event) => {
+        this.dispatchEvent(new CustomEvent('user-message', {
+          detail: { message: this.textInput.value }
+        }))
+        event.preventDefault()
+      })
     }
 
     /**

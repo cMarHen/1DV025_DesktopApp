@@ -95,7 +95,7 @@ template.innerHTML = `
             <h5>Memory</h5>
           </div>
           <div id="chat" class="icon" slot="icon3">
-          <h5>Shooter</h5>
+          <h5>Chat</h5>
           </div> 
           
           <div class="icon" slot="icon4"></div>
@@ -105,12 +105,17 @@ template.innerHTML = `
 
 
   <template id="memoryTemplate">
-    <desktop-screen-window id="window1">
+    <desktop-screen-window>
       <memory-application slot="app"></memory-application>
     </desktop-screen-window>
   </template>
+  <template id="chatTemplate">
+    <desktop-screen-window>
+    <chat-application slot="app"></chat-application>
+    </desktop-screen-window>
+  </template>
   <template id="shooterTemplate">
-    <desktop-screen-window id="window2">
+    <desktop-screen-window>
       <shooter-area-main slot="app"></shooter-area-main>
     </desktop-screen-window>
   </template>

@@ -6,6 +6,7 @@
  */
 
 import '../chat-send-message'
+import '../chat-recieved-message'
 
 /*
 * Define template.
@@ -28,15 +29,20 @@ template.innerHTML = `
 
      #messageField {
         display: flex;
-         height: 90%;
+        flex-direction: column;
+         height: 70%;
          width: 90%;
          background: white;
+         margin: 4px;
      }
 
      chat-send-message {
          display: flex;
-         align-self: flex-end;
+         justify-self: flex-end;
          width: 90%;
+     }
+     chat-recieved-message {
+         height: min-content;
      }
 
      /* #test2 {
@@ -47,12 +53,9 @@ template.innerHTML = `
      } */
    </style>
    <div id="messageField">
-       <p>ChatApp</p>
+       <chat-recieved-message></chat-recieved-message>
     </div>
     <chat-send-message></chat-send-message>
-   <!-- <div id="test2">
-       <p>HEJHE</p>
-    </div> -->
  `
 
 /*
@@ -63,6 +66,8 @@ customElements.define('chat-application',
    * Represents a component.
    */
   class extends HTMLElement {
+    #jsonData
+
     /**
      * Creates an instance of the current type.
      */
@@ -70,13 +75,54 @@ customElements.define('chat-application',
       super()
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
+
+      this.messageField = this.shadowRoot.querySelector('#messageField')
+      this.sendMessageField = this.shadowRoot.querySelector('chat-send-message')
+
+      this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
+
+      this.#jsonData = {
+        type: 'message',
+        data: 'The message text is sent using the data property',
+        username: 'mh225wd',
+        channel: 'my, not so secret, channel',
+        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
+      }
+
+      this.sendMessageField.addEventListener('user-message', (event) => {
+        console.log(event.detail.message)
+        const dataMessage = event.detail.message
+        this.#jsonData.data = dataMessage
+        this.socket.send(JSON.stringify(this.#jsonData))
+      })
+
+      this.socket.addEventListener('message', this.gotNewMessage.bind(this))
+    }
+
+    /**
+     * Parses a new chat message and append it to shadowDOM.
+     *
+     * @param {object} event - The event.
+     */
+    gotNewMessage (event) {
+      const data = JSON.parse(event.data)
+      console.log(data)
+      if (data.data) {
+        const element = document.createElement('chat-recieved-message')
+        element.usernameAndMessage(data.data, data.username)
+
+        this.messageField.append(element)
+      }
     }
 
     /**
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
-      console.log('chat-app!!')
+      /* const pTag = document.createElement('p')
+        pTag.append('hejhejhejhej')
+
+        this.messageField.append(pTag) */
     }
 
     /**
