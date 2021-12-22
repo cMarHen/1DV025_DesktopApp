@@ -1,6 +1,8 @@
 
 import '../memory-flipping-tile'
 
+const THUMBS_UP = new URL('./images/thumbs-up.png', import.meta.url).href
+
 const template = document.createElement('template')
 template.innerHTML = `
 <style>
@@ -8,7 +10,7 @@ template.innerHTML = `
         display: flex;
         justify-content: center;
         align-items: center;
-        height: min-content;
+        height: 100%;
         width: 100%;
         flex-wrap: wrap;
     }
@@ -19,8 +21,11 @@ template.innerHTML = `
 
     #mainArea {
         display: grid;
+        gap: 20px 0;
+        position: relative;
         box-sizing: border-box;
         overflow: hidden;
+        height: 100%;
     }
 
     #mainArea > * {
@@ -28,8 +33,25 @@ template.innerHTML = `
         justify-self: center;
     }
 
+    #winDiv {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      width: 100%;
+    }
+
+    #thumbsUp {
+      height: 40vh;
+      width: 20vw;
+      background-image: url(${THUMBS_UP});
+      background-size: 80%;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
     flipping-tile::part(card) {
-        height: 10vh;
+        height: 14vh;
         width: 6vw;
         margin: 0;
     }
@@ -40,8 +62,15 @@ template.innerHTML = `
 
 </style>
     <div id="mainArea">
-
+      
     </div>
+
+  <template id="playAgain">
+    <div id="winDiv">
+      <h3 id="winHeadline">Well done! Select a difficulty level and try again.</h3>
+      <div id="thumbsUp"></div>
+  </div>
+  </template>
 
 `
 
@@ -60,7 +89,6 @@ customElements.define('memory-area',
         .append(template.content.cloneNode(true))
 
       this.#frontImages = new Array(9)
-      // this.createImageArr() */
 
       this.mainArea = this.shadowRoot.querySelector('#mainArea')
       this.createGrid(4, 4)
@@ -78,22 +106,10 @@ customElements.define('memory-area',
      * @param {*} event - The event.
      */
     onFlippedEvent (event) {
-/*       if (this.compareContainer[0]) {
-        console.log(this.compareContainer[0].id)
-        if (this.compareContainer[0].id !== event.target.id) {
-          this.compareContainer.push(event.target)
-        }
-      } else {
-        this.compareContainer.push(event.target)
-      } */
-
-      console.log(event.target)
-      
-      this.compareContainer.push(event.target)
-      
-      console.log(this.compareContainer)
       if (this.compareContainer.length >= 2) {
         event.target.removeAttribute('flipped')
+      } else {
+        this.compareContainer.push(event.target)
       }
 
       if (this.compareContainer.length === 2) {
@@ -101,7 +117,6 @@ customElements.define('memory-area',
         this.compareContainer = []
       }
 
-      // console.log(this.compareContainer)
       event.preventDefault()
       event.stopPropagation()
     }
@@ -114,7 +129,8 @@ customElements.define('memory-area',
      */
     tileIsEqual (tile1, tile2) {
       setTimeout(() => {
-        if (tile1.isEqual(tile2)) {
+        // Check if innerHTML is equal, but not the id.
+        if ((tile1.isEqual(tile2)) && !(tile1.isEqualNode(tile2))) {
           tile1.setAttribute('hidden', '')
           tile2.setAttribute('hidden', '')
           this.dispatchEvent(new window.CustomEvent('match', {
@@ -127,7 +143,24 @@ customElements.define('memory-area',
             bubbles: true
           }))
         }
+        this.checkIfAllMatch()
       }, 1000)
+    }
+
+    /**
+     * Check if all the tiles are matched.
+     */
+    checkIfAllMatch () {
+      const tiles = this.shadowRoot.querySelectorAll('flipping-tile')
+      const hiddenTiles = this.shadowRoot.querySelectorAll('flipping-tile[hidden]')
+      if (tiles.length === hiddenTiles.length) {
+        this.dispatchEvent(new CustomEvent('all-matched', {
+          bubbles: true
+        }))
+        const template = this.shadowRoot.querySelector('#playAgain')
+        this.mainArea.innerText = ''
+        this.mainArea.append(template.content)
+      }
     }
 
     /**
@@ -173,7 +206,7 @@ customElements.define('memory-area',
     createGrid (column, row) {
       if ((column * row) % 2 !== 0) { return }
 
-      this.mainArea.style.gridTemplateColumns = `repeat(${column}, 15vw)`
+      this.mainArea.style.gridTemplateColumns = `repeat(${column}, 8vw)`
       this.mainArea.style.gridTemplateRows = `repeat(${row}, 13vh)`
 
       let i = 0

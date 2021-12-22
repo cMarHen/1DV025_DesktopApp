@@ -34,6 +34,7 @@ template.innerHTML = `
          width: 90%;
          background: white;
          margin: 4px;
+         overflow-y: scroll;
      }
 
      chat-send-message {
@@ -79,12 +80,14 @@ customElements.define('chat-application',
       this.messageField = this.shadowRoot.querySelector('#messageField')
       this.sendMessageField = this.shadowRoot.querySelector('chat-send-message')
 
+      this.username = 'Martin'
+
       this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
 
       this.#jsonData = {
         type: 'message',
         data: 'The message text is sent using the data property',
-        username: 'mh225wd',
+        username: this.username,
         channel: 'my, not so secret, channel',
         key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
       }
@@ -110,8 +113,12 @@ customElements.define('chat-application',
       if (data.data) {
         const element = document.createElement('chat-recieved-message')
         element.usernameAndMessage(data.data, data.username)
+        if (data.username === this.username) {
+          element.setAttribute('self', '')
+        }
 
         this.messageField.append(element)
+        // element.scrollIntoView()
       }
     }
 

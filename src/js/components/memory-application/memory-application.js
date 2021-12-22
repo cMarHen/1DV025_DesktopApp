@@ -37,8 +37,16 @@ template.innerHTML = `
 
     #appArea {
         height: 100%;
+        display: flex;
+        align-items: center;
         overflow: hidden;
         width: 100%;
+        min-width: 400px;
+        min-height: 300px;
+    }
+
+    memory-area {
+      height: 100%;
     }
 
     #bottomArea {
@@ -130,6 +138,11 @@ customElements.define('memory-application',
       })
       this.memoryArea.addEventListener('noMatch', (event) => {
         this.updateScoreNomatch()
+      })
+
+      this.memoryArea.addEventListener('all-matched', (event) => {
+        const time = this.tickingUpTimer.stopTimer()
+        console.log('Game Over!' + time)
       })
     }
 

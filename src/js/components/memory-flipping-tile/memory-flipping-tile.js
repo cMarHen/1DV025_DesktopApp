@@ -163,7 +163,7 @@ customElements.define('flipping-tile',
      * @returns {boolean} true if other has the same content as this tile instance.
      */
     isEqual (other) {
-      return this.isEqualNode(other)
+      return this.innerHTML === other.innerHTML
     }
 
     /**

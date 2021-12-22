@@ -75,6 +75,8 @@ customElements.define('my-custom-timer',
 
     /**
      * Stops the timer.
+     *
+     * @returns {number} - The total time.
      */
     stopTimer () {
       clearTimeout(this.timerTickingUp)
@@ -82,5 +84,7 @@ customElements.define('my-custom-timer',
         bubbles: true,
         detail: { time: this.counter }
       }))
+
+      return Number(this.counter)
     }
   })

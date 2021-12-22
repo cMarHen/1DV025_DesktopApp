@@ -55,6 +55,7 @@ customElements.define('chat-send-message',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
+      this.textField = this.shadowRoot.querySelector('#textField')
       this.sendButton = this.shadowRoot.querySelector('#sendButton')
       this.textInput = this.shadowRoot.querySelector('#textInput')
 
@@ -62,6 +63,8 @@ customElements.define('chat-send-message',
         this.dispatchEvent(new CustomEvent('user-message', {
           detail: { message: this.textInput.value }
         }))
+        this.textField.reset()
+        this.textInput.focus()
         event.preventDefault()
       })
     }

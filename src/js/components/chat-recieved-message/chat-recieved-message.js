@@ -13,25 +13,48 @@ template.innerHTML = `
     <style>
       :host {
           display: block;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          border: 1px solid black;
           margin: 3px;
           height: 100%;
           width: 95%;
-          background: red;
       }
 
-      h4, p {
-
+      :host([self]) #wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        background: green;
       }
 
-      p {
-
+      :host([self]) > *::after {
+        margin-right: 15px;
       }
 
+      #wrapper {
+        background: rgba(176, 231, 226, 0.56);
+        box-shadow: inset 0 0 15px white;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+      }
 
+      #user {
+      }
+
+      #message {
+        height: min-content;
+      }
+
+/*       #wrapper {
+        display: flex; 
+        flex-direction: column;
+      }
+
+      #wrapper > * {
+        display: flex;
+        word-wrap: break-word;
+        height: min-content;
+      } */
+      /* Lägg till class om skrivaren är en själv, så det hamnar åt höger */
 
     </style>
    <!--  <div id="wrapper">
@@ -39,8 +62,8 @@ template.innerHTML = `
 
     <template id="messageTemplate">
      <div id="wrapper">
-        <h4>&raquo; <span id="headline"></span> SAYS:</h4>
-        <p id="message">&raquo;</p>
+        <p id="user"> <span id="headline"></span> says: </p>
+        <p id="message"> </p>
      </div>
     </template>
   `
