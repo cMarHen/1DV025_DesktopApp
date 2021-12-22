@@ -158,6 +158,8 @@ customElements.define('memory-area',
           bubbles: true
         }))
         const template = this.shadowRoot.querySelector('#playAgain')
+
+        // Append a play again-scene.
         this.mainArea.innerText = ''
         this.mainArea.append(template.content)
       }
@@ -169,7 +171,7 @@ customElements.define('memory-area',
      * @returns {string[]} A string array of attributes to monitor.
      */
     static get observedAttributes () {
-      return ['difficulty', 'hidden']
+      return ['difficulty']
     }
 
     /**
@@ -260,6 +262,7 @@ customElements.define('memory-area',
      * @returns {number[]} - An array with shuffled numbers.
      */
     randomIndexArray (indexes) {
+      // Duplicate the indexes.
       const arr = [...Array(indexes).keys()].concat([...Array(indexes).keys()])
 
       for (let i = 0; i < arr.length; i++) {

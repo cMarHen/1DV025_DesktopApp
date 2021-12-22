@@ -14,6 +14,7 @@ import '../chat-application'
 
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 const ASTROID_SHOOTER_ICON = (new URL('./images/shooter-icon.png', import.meta.url)).href
+const MEMORY_ICON = (new URL('./images/lnu-symbol.png', import.meta.url)).href
 
 /*
 * Define template.
@@ -69,6 +70,12 @@ template.innerHTML = `
         background-repeat: no-repeat;
         background-position: cover;
     }
+    #memory {
+      background-image: url(${MEMORY_ICON});
+        background-size: 80%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
 </style>
 <div id="desktopScreen">
@@ -76,12 +83,12 @@ template.innerHTML = `
       <chat-application slot="app"></chat-application>
     </desktop-screen-window> -->
     <!-- <chat-application></chat-application> -->
-    <!-- <desktop-screen-window id="window2" zindex="2">
+    <desktop-screen-window id="window2" zindex="2">
       <shooter-area-main slot="app"></shooter-area-main>
-    </desktop-screen-window> -->
-    <desktop-screen-window name="window1">
-      <memory-application slot="app"></memory-application>
     </desktop-screen-window>
+    <!-- <desktop-screen-window name="window1">
+      <memory-application slot="app"></memory-application>
+    </desktop-screen-window> -->
     <!-- <my-custom-timer></my-custom-timer> -->
 </div>
 
@@ -92,7 +99,6 @@ template.innerHTML = `
        <desktop-navbar>
           <div id="shooter" slot="icon1"></div>
           <div id="memory" class="icon" slot="icon2">
-            <h5>Memory</h5>
           </div>
           <div id="chat" class="icon" slot="icon3">
           <h5>Chat</h5>
@@ -102,7 +108,7 @@ template.innerHTML = `
        </desktop-navbar>
    </div>
 
-
+<!-- APP TEMPLATES -->
 
   <template id="memoryTemplate">
     <desktop-screen-window>
