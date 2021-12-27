@@ -19,24 +19,24 @@ template.innerHTML = `
          flex-direction: column;
          justify-content: center;
          align-items: center;
-         border: 2px solid black;
          height: 70vh;
          width: 30vw;
          min-height: 100%;
          min-width: 100%;
-         background: blue;
+         background: #e1fdff;
      }
 
      #messageField {
         display: flex;
         flex-direction: column;
-         height: 70%;
+         height: 80%;
          width: 90%;
          background: white;
          margin: 4px;
          overflow-y: scroll;
      }
-
+     /* ::-webkit-scrollbar-thumb */
+     
      chat-send-message {
          display: flex;
          justify-self: flex-end;
@@ -53,7 +53,7 @@ template.innerHTML = `
          background: blue;
      } */
    </style>
-   <div id="messageField">
+    <div id="messageField">
        <chat-recieved-message></chat-recieved-message>
     </div>
     <chat-send-message></chat-send-message>

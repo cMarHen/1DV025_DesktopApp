@@ -116,6 +116,7 @@ customElements.define('shooter-area-main',
       })
 
       this.astroidGame.addEventListener('game-over', (event) => {
+        this.resultText.textContent = ''
         this.gameoverWindow.style.display = 'flex'
         const str = `Your shot down ${event.detail.score} astroids, and it took ${event.detail.time}s to massacre you.`
         this.resultText.append(str)

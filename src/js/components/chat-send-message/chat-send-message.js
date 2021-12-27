@@ -5,6 +5,8 @@
  * @version 1.1.0
  */
 
+import '../my-custom-button'
+
 /*
 * Define template.
 */
@@ -19,23 +21,40 @@ template.innerHTML = `
 
      #textField {
          display: flex;
-         height: 100px;
-         width: 90%;
-     }
-
-     #textField input {
          height: 100%;
          width: 100%;
+         position: relative;
+     }
+
+     #textInput {
+       outline: none;
+       resize: none;
+       width: 100%;
      }
 
      #sendButton {
-         margin: 6px;
+         
      }
+
+     ::part(buttonText) {
+     }
+
+     ::part(buttonArea) {
+      width: 20px;
+      height: 100%;
+      background: white;
+      box-shadow: inset 0 0 1px black;
+    }
+     ::part(buttonArea):hover {
+      width: 20px;
+      height: 100%;
+      box-shadow: inset 0 0 3px #432854;
+    }
 
    </style>
     <form id="textField">
-       <input id="textInput" type="text">
-       <button id="sendButton">SEND</button>
+       <textarea id="textInput"></textarea>
+       <my-custom-button id="sendButton"></my-custom-button>
     </form>
  `
 
@@ -59,14 +78,29 @@ customElements.define('chat-send-message',
       this.sendButton = this.shadowRoot.querySelector('#sendButton')
       this.textInput = this.shadowRoot.querySelector('#textInput')
 
-      this.sendButton.addEventListener('click', (event) => {
-        this.dispatchEvent(new CustomEvent('user-message', {
-          detail: { message: this.textInput.value }
-        }))
-        this.textField.reset()
-        this.textInput.focus()
-        event.preventDefault()
+      this.sendMessage = this.sendMessage.bind(this)
+
+      this.sendButton.addEventListener('click', this.sendMessage)
+
+      this.textInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          this.sendMessage(event)
+        }
       })
+    }
+
+    /**
+     * Send a new message.
+     *
+     * @param {*} event - The event.
+     */
+    sendMessage (event) {
+      this.dispatchEvent(new CustomEvent('user-message', {
+        detail: { message: this.textInput.value }
+      }))
+      this.textField.reset()
+      this.textInput.focus()
+      event.preventDefault()
     }
 
     /**

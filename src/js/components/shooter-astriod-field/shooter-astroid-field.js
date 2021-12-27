@@ -142,7 +142,6 @@ customElements.define('shooter-astroid-field',
       })
 
       this.astroidField.addEventListener('animationend', (event) => {
-        // setInterval on this??
         this.astroidField.innerHTML = ''
         const totalTime = this.tickingUpTimer.stopTimer()
         clearTimeout(this.playTimer)
@@ -179,6 +178,7 @@ customElements.define('shooter-astroid-field',
     startGame (speed) {
       clearTimeout(this.playTimer)
 
+      this.scoreBoard.setAttribute('value', 0)
       this.tickingUpTimer.startTimer(10, 2)
       this.astroidField.innerText = ''
       this.#score = 0

@@ -28,7 +28,6 @@ A boolean attribute. If inactive, button cant be clicked.
 
 ## Example
 
-### `Put an img inside the element will place the image in a slot element of the front side.`
 
 ```html
     <my-custom-button>PLAY</my-custom-button>
