@@ -6,6 +6,7 @@
  */
 
 import '../shooter-astriod-field'
+import '../my-custom-button'
 
 const COMMAND_BRIDGE = (new URL('./images/command-bridge.jpg', import.meta.url)).href
 
@@ -30,31 +31,58 @@ template.innerHTML = `
        position: relative;
      }
 
-     #navArea {
-         display: flex;
-         justify-content: space-around;
-         align-items: center;
-        position: absolute;
-        height: 40px;
-        width: 70%;
-        top: 89%;
+     #gameoverWindow {
+       display: none;
      }
 
-     #play {
-         height: 70%;
-         width: 30%;
-         border: 1px solid antiquewhite;
-         border-radius: 5px;
-         box-shadow: inset 0 0 10px gray;
-         outline: none;
+     .messageWindow {
+       position: absolute;
+       z-index: 1;
+       height: 70%;
+       width: 70%;
+       display: flex;
+       background: black;
+       box-shadow: inset 0 0 20px white;
+       flex-direction: column;
+       justify-content: center;
+       align-items: center;
+       color: white;
+     }
+
+     .messageWindow p {
+       margin: 10px 20px 10px 20px;
+     }
+
+     .messageWindow h2 {
+      font-size: 1.8rem;
+     }
+
+     ::part(buttonText) {
+      color: gray;
      }
 
 
    </style>
        <shooter-astroid-field></shooter-astroid-field>
 
-       <div id="navArea">
-           <button id="play">NEW GAME</button>
+       <div id="introWindow" class="messageWindow">
+
+          <h2>Welcome to Astroid Shooter! </h2>
+
+          <p>You are on an important mission, but your starship got stuck in an astroid field.</p>
+          <p>Aim on the astroids, and shoot them down. They are coming faster and faster.</p>
+          <p>The possibility of successfully navigating an asteroid field is approximately three thousand seven hundred and twenty to one.</p>
+          <my-custom-button>PLAY</my-custom-button>
+       </div>
+
+       <div id="gameoverWindow" class="messageWindow">
+
+          <h2>YOUR STARSHIP GOT DESTROYED! </h2>
+
+          <p id="resultText"></p>
+          <p>Reload the engines and try again.</p>
+          <p>Remember, The possibility of successfully navigating an asteroid field is approximately three thousand seven hundred and twenty to one.</p>
+          <my-custom-button>PLAY</my-custom-button>
        </div>
  `
 
@@ -74,40 +102,24 @@ customElements.define('shooter-area-main',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.playButton = this.shadowRoot.querySelector('#play')
+      this.messageWindow = this.shadowRoot.querySelector('.messageWindow')
       this.astroidGame = this.shadowRoot.querySelector('shooter-astroid-field')
+      this.introWindow = this.shadowRoot.querySelector('#introWindow')
+      this.gameoverWindow = this.shadowRoot.querySelector('#gameoverWindow')
+      this.resultText = this.shadowRoot.querySelector('#resultText')
 
-      this.playButton.addEventListener('click', event => {
+      this.addEventListener('clicked', event => {
+        console.log(event.target)
+        this.introWindow.style.display = 'none'
+        this.gameoverWindow.style.display = 'none'
         this.astroidGame.startGame(6000)
       })
-    }
 
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
-    }
-
-    /**
-     * Attributes to monitor for changes.
-     *
-     * @returns {string[]} A string array of attributes to monitor.
-     */
-    static get observedAttributes () {
-      return ['']
-    }
-
-    /**
-     * Called when observed attribute(s) changes.
-     *
-     * @param {string} name - The attribute's name.
-     * @param {*} oldValue - The old value.
-     * @param {*} newValue - The new value.
-     */
-    attributeChangedCallback (name, oldValue, newValue) {
-      if (name === 'def') {
-        console.log()
-      }
+      this.astroidGame.addEventListener('game-over', (event) => {
+        this.gameoverWindow.style.display = 'flex'
+        const str = `Your shot down ${event.detail.score} astroids, and it took ${event.detail.time}s to massacre you.`
+        this.resultText.append(str)
+      })
     }
   }
 )
