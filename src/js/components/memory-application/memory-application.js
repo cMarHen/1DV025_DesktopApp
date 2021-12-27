@@ -7,6 +7,7 @@
 
 import '../memory-area'
 import '../my-custom-timer'
+import '../my-username-input'
 
 /*
 * Define template.
@@ -23,6 +24,7 @@ template.innerHTML = `
         width: 100%;
         box-shadow: 0 0 9px gray;
         background-color: rgba(255, 255, 255, 0.432);
+        position: relative;
     }
 
     #levelChoice {
@@ -72,12 +74,18 @@ template.innerHTML = `
       margin-left: 5px;
     }
 
+    my-username-input {
+      position: absolute;
+      top: 100px;
+    }
+
 </style>
 <div id="levelChoice">
     <button name="easy">EASY</button>
     <button name="medium">MEDIUM</button>
     <button name="hard">HARD</button>
 </div>
+<my-username-input type="memory"></my-username-input>
 <div id="appArea">
     <memory-area hidden></memory-area>
 </div>

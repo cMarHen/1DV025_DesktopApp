@@ -18,6 +18,7 @@ template.innerHTML = `
      #button {
          outline: none;
          border: none;
+         transition: 50ms;
         display: flex;
          justify-content: center;
          align-items: center;

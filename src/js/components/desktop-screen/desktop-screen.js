@@ -79,16 +79,16 @@ template.innerHTML = `
 
 </style>
 <div id="desktopScreen">
-    <desktop-screen-window id="window2" zindex="2">
+    <!-- <desktop-screen-window id="window2" zindex="2">
       <chat-application slot="app"></chat-application>
-    </desktop-screen-window>
+    </desktop-screen-window> -->
     <!-- <chat-application></chat-application> -->
     <!-- <desktop-screen-window id="window2" zindex="2">
       <shooter-area-main slot="app"></shooter-area-main>
     </desktop-screen-window> -->
-    <!-- <desktop-screen-window name="window1">
+    <desktop-screen-window name="window1">
       <memory-application slot="app"></memory-application>
-    </desktop-screen-window> -->
+    </desktop-screen-window>
     <!-- <my-custom-timer></my-custom-timer> -->
 </div>
 
