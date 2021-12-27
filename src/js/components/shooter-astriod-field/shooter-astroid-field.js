@@ -174,7 +174,7 @@ customElements.define('shooter-astroid-field',
     /**
      * Starts the game.
      *
-     * @param {*} speed - The initiate speed for the astroids.
+     * @param {number} speed - The initiate speed for the astroids.
      */
     startGame (speed) {
       clearTimeout(this.playTimer)
@@ -204,7 +204,7 @@ customElements.define('shooter-astroid-field',
     /**
      * Creates an astroid element.
      *
-     * @param {*} speed - The speed for the animation.
+     * @param {number} speed - The speed for the animation.
      */
     createAstroid (speed) {
       const newAstroid = document.createElement('shooter-custom-astroid')
