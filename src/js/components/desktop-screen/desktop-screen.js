@@ -79,16 +79,16 @@ template.innerHTML = `
 
 </style>
 <div id="desktopScreen">
-    <!-- <desktop-screen-window id="window2" zindex="2">
+    <desktop-screen-window id="window2" zindex="2">
       <chat-application slot="app"></chat-application>
-    </desktop-screen-window> -->
+    </desktop-screen-window>
     <!-- <chat-application></chat-application> -->
     <!-- <desktop-screen-window id="window2" zindex="2">
       <shooter-area-main slot="app"></shooter-area-main>
     </desktop-screen-window> -->
-    <desktop-screen-window name="window1">
+    <!-- <desktop-screen-window name="window1">
       <memory-application slot="app"></memory-application>
-    </desktop-screen-window>
+    </desktop-screen-window> -->
     <!-- <my-custom-timer></my-custom-timer> -->
 </div>
 
@@ -140,6 +140,8 @@ customElements.define('desktop-screen',
 
   #idToUse
 
+  #positionToUse
+
   /**
    * Creates an instance of the current type.
    */
@@ -153,12 +155,14 @@ customElements.define('desktop-screen',
 
     this.#zIndexToUse = 1
     this.#idToUse = 1
+    this.#positionToUse = 20
     this.screenRect = this.getBoundingClientRect()
     this.windowDragStart = this.windowDragStart.bind(this)
     this.windowDragOver = this.windowDragOver.bind(this)
 
     // -- WINDOW TEMPLATES -- //
 
+    // DEN HÄR BEHÖVS INTE
     this.shooterTemplate = this.shadowRoot.querySelector('#shooterTemplate')
 
     // -- EVENT LISTENERS -- //
@@ -193,6 +197,16 @@ customElements.define('desktop-screen',
     const element = this.shadowRoot.querySelector(`#${id}Template`).content.cloneNode(true)
     element.firstElementChild.id = `window${this.#idToUse}`
     this.#idToUse += 1
+    this.#positionToUse += 5
+
+    if (this.#idToUse < 500) {
+      element.firstElementChild.style.left = `${this.#positionToUse}px`
+      element.firstElementChild.style.top = `${this.#positionToUse}px`
+    } else {
+      element.firstElementChild.style.left = '500px'
+      element.firstElementChild.style.top = '500px'
+    }
+
     this.desktopScreen.append(element)
   }
 

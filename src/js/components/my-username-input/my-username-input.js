@@ -40,7 +40,9 @@ template.innerHTML = `
    </style>
    <div>
     <input id="inputText" type="text">
-    <my-custom-button>SEND</my-custom-button>
+    <my-custom-button>
+      <slot></slot>
+    </my-custom-button>
    </div>
  `
 
@@ -83,6 +85,7 @@ customElements.define('my-username-input',
       if (this.type) {
         this.dispatchEvent(new CustomEvent('username-set', {
           bubbles: true,
+          composed: true,
           detail: { username: this.inputText.value }
         }))
       }

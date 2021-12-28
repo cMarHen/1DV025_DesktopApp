@@ -72,7 +72,7 @@ template.innerHTML = `
           <p>You are on an important mission, but your starship got stuck in an astroid field.</p>
           <p>Aim on the astroids, and shoot them down. They are coming faster and faster.</p>
           <p>The possibility of successfully navigating an asteroid field is approximately three thousand seven hundred and twenty to one.</p>
-          <my-custom-button>PLAY</my-custom-button>
+          <my-username-input type="shooter">PLAY</my-username-input>
        </div>
 
        <div id="gameoverWindow" class="messageWindow">
@@ -108,12 +108,8 @@ customElements.define('shooter-area-main',
       this.gameoverWindow = this.shadowRoot.querySelector('#gameoverWindow')
       this.resultText = this.shadowRoot.querySelector('#resultText')
 
-      this.addEventListener('clicked', event => {
-        console.log(event.target)
-        this.introWindow.style.display = 'none'
-        this.gameoverWindow.style.display = 'none'
-        this.astroidGame.startGame(6000)
-      })
+      this.addEventListener('username-set', this.startGame)
+      this.addEventListener('clicked', this.startGame)
 
       this.astroidGame.addEventListener('game-over', (event) => {
         this.resultText.textContent = ''
@@ -121,6 +117,17 @@ customElements.define('shooter-area-main',
         const str = `Your shot down ${event.detail.score} astroids, and it took ${event.detail.time}s to massacre you.`
         this.resultText.append(str)
       })
+    }
+
+    /**
+     * Starts game.
+     *
+     * @param {*} event - The event.
+     */
+    startGame (event) {
+      this.introWindow.style.display = 'none'
+      this.gameoverWindow.style.display = 'none'
+      this.astroidGame.startGame(6000)
     }
   }
 )

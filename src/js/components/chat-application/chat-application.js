@@ -7,6 +7,7 @@
 
 import '../chat-send-message'
 import '../chat-recieved-message'
+import '../chat-login'
 
 /*
 * Define template.
@@ -26,8 +27,13 @@ template.innerHTML = `
          background: #e1fdff;
      }
 
+     #loginArea {
+       height: 100%;
+       width: 100%;
+     }
+
      #messageField {
-        display: flex;
+        display: none;
         flex-direction: column;
          height: 80%;
          width: 90%;
@@ -38,21 +44,17 @@ template.innerHTML = `
      /* ::-webkit-scrollbar-thumb */
      
      chat-send-message {
-         display: flex;
+         display: none;
          justify-self: flex-end;
          width: 90%;
      }
      chat-recieved-message {
          height: min-content;
      }
-
-     /* #test2 {
-        display: flex;
-         height: 200px;
-         width: 200px;
-         background: blue;
-     } */
    </style>
+   <div id="loginArea">
+     <chat-login></chat-login>
+   </div>
     <div id="messageField">
        <chat-recieved-message></chat-recieved-message>
     </div>
@@ -79,18 +81,18 @@ customElements.define('chat-application',
 
       this.messageField = this.shadowRoot.querySelector('#messageField')
       this.sendMessageField = this.shadowRoot.querySelector('chat-send-message')
-
-      this.username = 'Martin'
+      this.loginArea = this.shadowRoot.querySelector('#loginArea')
 
       this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
 
-      this.#jsonData = {
-        type: 'message',
-        data: 'The message text is sent using the data property',
-        username: this.username,
-        channel: 'my, not so secret, channel',
-        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
-      }
+      // ----- EVENT LISTENERS ------ //
+
+      this.loginArea.addEventListener('username-set', (event) => {
+        this.#jsonData.username = event.detail.username
+        this.loginArea.style.display = 'none'
+        this.messageField.style.display = 'flex'
+        this.sendMessageField.style.display = 'flex'
+      })
 
       this.sendMessageField.addEventListener('user-message', (event) => {
         console.log(event.detail.message)
@@ -126,10 +128,13 @@ customElements.define('chat-application',
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
-      /* const pTag = document.createElement('p')
-        pTag.append('hejhejhejhej')
-
-        this.messageField.append(pTag) */
+      this.#jsonData = {
+        type: 'message',
+        data: 'The message text is sent using the data property',
+        username: 'anonymous',
+        channel: 'my, not so secret, channel',
+        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
+      }
     }
 
     /**
