@@ -92,13 +92,6 @@ template.innerHTML = `
     }
 
 </style>
-<!-- <div id="levelChoice">
-    <button name="easy">EASY</button>
-    <button name="medium">MEDIUM</button>
-    <button name="hard">HARD</button>
-</div> -->
-
-
 <div id="appArea">
     <memory-area hidden></memory-area>
 </div>
@@ -114,7 +107,7 @@ template.innerHTML = `
 <div id="intro">
   <div id="usernameInput">
     <h4>Username:</h4>
-    <my-username-input type="memory"></my-username-input>
+    <my-username-input type="memory">SEND</my-username-input>
   </div>
 
   <div id="levelChoice">

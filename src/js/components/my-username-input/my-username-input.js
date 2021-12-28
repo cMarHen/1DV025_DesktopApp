@@ -90,7 +90,7 @@ customElements.define('my-username-input',
         }))
       }
 
-      window.localStorage.setItem(`${this.type}-username`, JSON.stringify({ username: this.inputText.value }))
+      window.localStorage.setItem(`${this.type}Username`, JSON.stringify({ username: this.inputText.value }))
 
       event.preventDefault()
     }

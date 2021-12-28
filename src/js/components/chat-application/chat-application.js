@@ -28,6 +28,7 @@ template.innerHTML = `
      }
 
      #loginArea {
+       display: none;
        height: 100%;
        width: 100%;
      }
@@ -85,6 +86,16 @@ customElements.define('chat-application',
 
       this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
 
+      this.#jsonData = {
+        type: 'message',
+        data: 'The message text is sent using the data property',
+        username: 'anonymous',
+        channel: 'my, not so secret, channel',
+        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
+      }
+
+      this.checkIfLoggedIn()
+
       // ----- EVENT LISTENERS ------ //
 
       this.loginArea.addEventListener('username-set', (event) => {
@@ -102,6 +113,23 @@ customElements.define('chat-application',
       })
 
       this.socket.addEventListener('message', this.gotNewMessage.bind(this))
+    }
+
+    /**
+     * Check if login-window or not.
+     */
+    checkIfLoggedIn () {
+      if (localStorage.chatUsername) {
+        const data = JSON.parse(localStorage.chatUsername)
+        this.#jsonData.username = data.username
+        this.loginArea.style.display = 'none'
+        this.messageField.style.display = 'flex'
+        this.sendMessageField.style.display = 'flex'
+      } else {
+        this.loginArea.style.display = 'block'
+      }
+      /* 
+      If username in storage, display messagefield and sendmessage, otherwise set loginarea */
     }
 
     /**
@@ -128,13 +156,6 @@ customElements.define('chat-application',
      * Called after the element is inserted into the DOM.
      */
     connectedCallback () {
-      this.#jsonData = {
-        type: 'message',
-        data: 'The message text is sent using the data property',
-        username: 'anonymous',
-        channel: 'my, not so secret, channel',
-        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
-      }
     }
 
     /**
