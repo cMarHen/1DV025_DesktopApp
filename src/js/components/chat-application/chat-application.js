@@ -128,8 +128,6 @@ customElements.define('chat-application',
       } else {
         this.loginArea.style.display = 'block'
       }
-      /* 
-      If username in storage, display messagefield and sendmessage, otherwise set loginarea */
     }
 
     /**

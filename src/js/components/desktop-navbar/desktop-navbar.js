@@ -48,7 +48,7 @@ template.innerHTML = `
        border-radius: 15px 15px 2px 2px;
      }
 
-     ::slotted(*:hover) {
+     ::slotted(*:hover), ::slotted(*:focus) {
       box-shadow: inset 0 0 4px black;
      }
 
@@ -99,6 +99,15 @@ customElements.define('desktop-navbar',
           bubbles: true,
           detail: { id: event.target.id }
         }))
+      })
+
+      this.iconWrapper.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          this.dispatchEvent(new CustomEvent('icon-request', {
+            bubbles: true,
+            detail: { id: event.target.id }
+          }))
+        }
       })
     }
 

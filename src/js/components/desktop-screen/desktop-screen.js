@@ -31,10 +31,10 @@ template.innerHTML = `
         align-items: center;
         background-image: url(${BACKGROUND_IMG});
         background-size: 100%;
-        background-repeat: no-repeat;
         background-position: cover;
         box-shadow: inset 1px 1px 4px gray;
         position: relative;
+        overflow: hidden; 
     }
 
     #navWrapper {
@@ -57,12 +57,6 @@ template.innerHTML = `
       position: absolute;
       left: 20px;
     }
-
-    /* .icon{
-      height: 50px;
-      width: 50px;
-      background: red;
-    } */
 
     #shooter {
       background-image: url(${ASTROID_SHOOTER_ICON});
@@ -97,14 +91,13 @@ template.innerHTML = `
   <!-- Img-taggar i slotten? -->
   <!-- Ikoner till höger, med en döljfunktion -->
        <desktop-navbar>
-          <div id="shooter" slot="icon1"></div>
-          <div id="memory" class="icon" slot="icon2">
-          </div>
-          <div id="chat" class="icon" slot="icon3">
+          <div id="shooter" slot="icon1" tabindex="0"></div>
+          <div id="memory" class="icon" slot="icon2" tabindex="0"></div>
+          <div id="chat" class="icon" slot="icon3" tabindex="0">
           <h5>Chat</h5>
           </div> 
           
-          <div class="icon" slot="icon4"></div>
+          <div class="icon" slot="icon4" tabindex="0"></div>
        </desktop-navbar>
    </div>
 
