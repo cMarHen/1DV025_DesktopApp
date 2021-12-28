@@ -37,6 +37,10 @@ template.innerHTML = `
      #button:active {
         box-shadow: inset 0 0 15px #370259;
      }
+
+     #button:focus {
+      box-shadow: inset 0 0 15px #432854;
+     }
    </style>
 
    <button id="button" part="buttonArea">
@@ -66,7 +70,10 @@ customElements.define('my-custom-button',
         this.dispatchEvent(new CustomEvent('clicked', {
           bubbles: true,
           composed: true,
-          detail: { id: this.slottedContent }
+          detail: {
+            id: this.slottedContent,
+            name: this.name
+          }
         }))
         event.preventDefault()
       })
@@ -84,7 +91,7 @@ customElements.define('my-custom-button',
      * @returns {string[]} A string array of attributes to monitor.
      */
     static get observedAttributes () {
-      return ['value']
+      return ['name']
     }
 
     /**
@@ -95,8 +102,8 @@ customElements.define('my-custom-button',
      * @param {*} newValue - The new value.
      */
     attributeChangedCallback (name, oldValue, newValue) {
-      if (name === newValue) {
-        console.log()
+      if (name === 'name') {
+        this.name = newValue
       }
     }
   }

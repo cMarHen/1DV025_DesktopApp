@@ -82,7 +82,8 @@ customElements.define('my-username-input',
     setUsername (event) {
       if (this.type) {
         this.dispatchEvent(new CustomEvent('username-set', {
-          bubbles: true
+          bubbles: true,
+          detail: { username: this.inputText.value }
         }))
       }
 

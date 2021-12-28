@@ -8,6 +8,7 @@
 import '../memory-area'
 import '../my-custom-timer'
 import '../my-username-input'
+import '../my-custom-button'
 
 /*
 * Define template.
@@ -27,24 +28,14 @@ template.innerHTML = `
         position: relative;
     }
 
-    #levelChoice {
-      height: 10%;
-        margin: 3px 0 0 0;
-    }
-
-    #levelChoice button {
-        padding: 5px 10px;
-        margin: 4px;
-    }
-
     #appArea {
         height: 100%;
         display: flex;
         align-items: center;
         overflow: hidden;
         width: 100%;
-        min-width: 400px;
-        min-height: 300px;
+        min-width: 500px;
+        min-height: 400px;
     }
 
     memory-area {
@@ -73,29 +64,67 @@ template.innerHTML = `
       font-size: 1.1em;
       margin-left: 5px;
     }
+    
+    #levelChoice {
+      display: none;
+      height: 10%;
+        margin: 3px 0 0 0;
+    }
 
-    my-username-input {
+    ::part(buttonArea) {
+        height: 35px;
+        width: 70px;
+        border-radius: 15px;
+        margin: 2px;
+        background: radial-gradient(circle, rgba(164,232,227,1) 17%, rgba(125,199,198,1) 75%);
+    }
+
+    #usernameInput {
+     /*  display: none; */
+    }
+
+    #intro {
+      padding: 15px;
+      border-radius: 4px;
+      box-shadow: inset 0 0 5px gray;
       position: absolute;
       top: 100px;
     }
 
 </style>
-<div id="levelChoice">
+<!-- <div id="levelChoice">
     <button name="easy">EASY</button>
     <button name="medium">MEDIUM</button>
     <button name="hard">HARD</button>
-</div>
-<my-username-input type="memory"></my-username-input>
+</div> -->
+
+
 <div id="appArea">
     <memory-area hidden></memory-area>
 </div>
+
+
 <div id="bottomArea">
-      <h5>Tries: <span id="tryCounter">0</span>
-  </h5>
-      <h5>Points: <span id="pointCounter">0</span>
-  </h5>
-      <h5>TIME: <span id="timeCounter"> <my-custom-timer></my-custom-timer></span>
-  </h5>
+      <h5>Tries: <span id="tryCounter">0</span></h5>
+      <h5>Points: <span id="pointCounter">0</span></h5>
+      <h5>TIME: <span id="timeCounter"> <my-custom-timer></my-custom-timer></span></h5>
+</div>
+
+<!-- Used before the game starts -->
+<div id="intro">
+  <div id="usernameInput">
+    <h4>Username:</h4>
+    <my-username-input type="memory"></my-username-input>
+  </div>
+
+  <div id="levelChoice">
+    <my-custom-button name="easy">Easy</my-custom-button>
+    <my-custom-button name="medium">Medium</my-custom-button>
+    <my-custom-button name="hard">Hard</my-custom-button>
+    <!-- <button name="easy">EASY</button>
+    <button name="medium">MEDIUM</button>
+    <button name="hard">HARD</button> -->
+  </div>
 </div>
 `
 
@@ -128,18 +157,17 @@ customElements.define('memory-application',
       this.tryCounter = this.shadowRoot.querySelector('#tryCounter')
       this.timeCounter = this.shadowRoot.querySelector('#timeCounter')
       this.tickingUpTimer = this.shadowRoot.querySelector('my-custom-timer')
+      this.usernameInput = this.shadowRoot.querySelector('#usernameInput')
+      this.introDiv = this.shadowRoot.querySelector('#intro')
+
+      this.setDifficulty = this.setDifficulty.bind(this)
+      this.startGame = this.startGame.bind(this)
 
       // -----------------
       // EVENT LISTENERS
       // -----------------
 
-      this.levelChoice.addEventListener('click', (event) => {
-        if (event.target.name) {
-          this.memoryArea.setAttribute('difficulty', event.target.name)
-          this.memoryArea.removeAttribute('hidden')
-          this.tickingUpTimer.startTimer(10, 2)
-        }
-      })
+      this.usernameInput.addEventListener('username-set', this.setDifficulty)
 
       this.memoryArea.addEventListener('match', (event) => {
         this.updateScoreMatch()
@@ -150,8 +178,35 @@ customElements.define('memory-application',
 
       this.memoryArea.addEventListener('all-matched', (event) => {
         const time = this.tickingUpTimer.stopTimer()
+        this.introDiv.style.display = 'block'
+        this.setDifficulty()
         console.log('Game Over!' + time)
       })
+    }
+
+    /**
+     * Difficulty on user input.
+     */
+    setDifficulty () {
+      this.usernameInput.style.display = 'none'
+      this.levelChoice.style.display = 'flex'
+      this.levelChoice.addEventListener('clicked', this.startGame)
+    }
+
+    /**
+     * Starts game.
+     *
+     * @param {*} event - The event.
+     */
+    startGame (event) {
+      if (event.target.name) {
+        this.levelChoice.style.display = 'none'
+        this.introDiv.style.display = 'none'
+
+        this.memoryArea.setAttribute('difficulty', event.target.name)
+        this.memoryArea.removeAttribute('hidden')
+        this.tickingUpTimer.startTimer(10, 2)
+      }
     }
 
     /**

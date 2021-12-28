@@ -37,13 +37,14 @@ template.innerHTML = `
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
       position: absolute;
+      height: 100%;
       width: 100%;
     }
 
     #thumbsUp {
-      height: 40vh;
+      height: 30vh;
       width: 20vw;
       background-image: url(${THUMBS_UP});
       background-size: 80%;
@@ -69,7 +70,7 @@ template.innerHTML = `
     <div id="winDiv">
       <h3 id="winHeadline">Well done! Select a difficulty level and try again.</h3>
       <div id="thumbsUp"></div>
-  </div>
+    </div>
   </template>
 
 `
@@ -161,7 +162,7 @@ customElements.define('memory-area',
 
         // Append a play again-scene.
         this.mainArea.innerText = ''
-        this.mainArea.append(template.content)
+        this.mainArea.append(template.content.cloneNode(true))
       }
     }
 
