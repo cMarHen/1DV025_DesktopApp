@@ -95,8 +95,8 @@ customElements.define('desktop-window-body',
      */
     resizingRight (event) {
       console.log(event.offsetY)
-      this.windowWrapper.style.width = `${event.offsetX + 7}px`
-      this.windowWrapper.style.height = `${event.offsetY + 7}px`
+      this.windowWrapper.style.width = `${event.offsetX + 14}px`
+      this.windowWrapper.style.height = `${event.offsetY + 14}px`
       event.stopPropagation()
       event.preventDefault()
     }

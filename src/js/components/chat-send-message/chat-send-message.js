@@ -6,6 +6,7 @@
  */
 
 import '../my-custom-button'
+import '../chat-emoji-window'
 
 /*
 * Define template.
@@ -32,8 +33,10 @@ template.innerHTML = `
        width: 100%;
      }
 
-     #sendButton {
-         
+     chat-emoji-window {
+       position: absolute;
+       top: 90%;
+       left: 65%;
      }
 
      ::part(buttonText) {
@@ -55,6 +58,7 @@ template.innerHTML = `
     <form id="textField">
        <textarea id="textInput"></textarea>
        <my-custom-button id="sendButton"></my-custom-button>
+       <chat-emoji-window></chat-emoji-window>
     </form>
  `
 
@@ -77,13 +81,19 @@ customElements.define('chat-send-message',
       this.textField = this.shadowRoot.querySelector('#textField')
       this.sendButton = this.shadowRoot.querySelector('#sendButton')
       this.textInput = this.shadowRoot.querySelector('#textInput')
+      this.emojiWindow = this.shadowRoot.querySelector('chat-emoji-window')
 
       this.sendMessage = this.sendMessage.bind(this)
+
+      this.emojiWindow.addEventListener('emoji-clicked', (event) => {
+        this.textInput.value += event.detail.emoji
+        event.preventDefault()
+      })
 
       this.sendButton.addEventListener('click', this.sendMessage)
 
       this.textInput.addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
+        if (event.key === 'Enter' && !event.shiftKey) {
           this.sendMessage(event)
         }
       })
@@ -98,7 +108,7 @@ customElements.define('chat-send-message',
       this.dispatchEvent(new CustomEvent('user-message', {
         detail: { message: this.textInput.value }
       }))
-      this.textField.reset()
+      this.textField.textContent = ''
       this.textInput.focus()
       event.preventDefault()
     }
