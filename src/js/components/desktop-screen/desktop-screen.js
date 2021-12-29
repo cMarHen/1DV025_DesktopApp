@@ -88,8 +88,6 @@ template.innerHTML = `
 
 
 <div id="navWrapper">
-  <!-- Img-taggar i slotten? -->
-  <!-- Ikoner till höger, med en döljfunktion -->
        <desktop-navbar>
           <div id="shooter" slot="icon1" tabindex="0"></div>
           <div id="memory" class="icon" slot="icon2" tabindex="0"></div>
@@ -152,11 +150,6 @@ customElements.define('desktop-screen',
     this.screenRect = this.getBoundingClientRect()
     this.windowDragStart = this.windowDragStart.bind(this)
     this.windowDragOver = this.windowDragOver.bind(this)
-
-    // -- WINDOW TEMPLATES -- //
-
-    // DEN HÄR BEHÖVS INTE
-    this.shooterTemplate = this.shadowRoot.querySelector('#shooterTemplate')
 
     // -- EVENT LISTENERS -- //
 
@@ -258,12 +251,6 @@ customElements.define('desktop-screen',
     this.windowElement.style.top = `${top}px`
     event.stopPropagation()
     event.preventDefault()
-  }
-
-  /**
-   * Called after the element is inserted into the DOM.
-   */
-  connectedCallback () {
   }
 
   /**

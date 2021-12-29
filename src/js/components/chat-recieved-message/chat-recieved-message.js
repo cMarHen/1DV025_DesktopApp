@@ -35,30 +35,27 @@ template.innerHTML = `
         display: flex;
         flex-direction: column;
         align-items: start;
+        padding: 0 15px 0 15px;
       }
 
       #user {
+        font-size: 0.8rem;
+        font-weight: thin;
+        color: #221828;
+        width: 100%;
+        margin: 0;
+        padding: 10px 0 5px 0;
+        border-bottom: 1px solid gray;
+        
       }
 
       #message {
+        margin: 13px 0 13px 0;
+        font-size: 0.9rem;
         height: min-content;
       }
-
-/*       #wrapper {
-        display: flex; 
-        flex-direction: column;
-      }
-
-      #wrapper > * {
-        display: flex;
-        word-wrap: break-word;
-        height: min-content;
-      } */
-      /* Lägg till class om skrivaren är en själv, så det hamnar åt höger */
 
     </style>
-   <!--  <div id="wrapper">
-    </div> -->
 
     <template id="messageTemplate">
      <div id="wrapper">
@@ -101,18 +98,7 @@ customElements.define('chat-recieved-message',
 
       const messageTag = wrapper.querySelector('#message')
       messageTag.append(message)
-
-      console.log(wrapper)
-      // console.log(this.messageTemplate.content.querySelector('#message'))
-      // messageTag.append(message), userTag.append(user)
-
       this.shadowRoot.append(wrapper)
-    }
-
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
     }
   }
 )

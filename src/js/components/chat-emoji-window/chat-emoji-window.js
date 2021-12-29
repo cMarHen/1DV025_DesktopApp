@@ -115,14 +115,6 @@ customElements.define('chat-emoji-window',
       this.appendEmojisToWindow()
     }
 
-    /* connectedCallback () {
-      console.log(emojiEmotion[0])
-      const pTag = document.createElement('p')
-      emojiEmotion.map(x => {
-          this.clickedWindow.append(x.emoji)
-        })
-    } */
-
     /**
      * Append emojis to emoji window.
      */

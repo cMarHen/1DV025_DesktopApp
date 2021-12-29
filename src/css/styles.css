@@ -6,5 +6,7 @@ html, body {
 	overflow-y: hidden;
     overflow-x: hidden;
 	background: radial-gradient(antiquewhite, rgb(228, 202, 177));
+	color: #292828;
+	font-family: Georgia, 'Times New Roman', Times, serif;
 }
 

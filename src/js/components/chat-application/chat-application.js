@@ -66,7 +66,6 @@ template.innerHTML = `
          scrollbar-color: gray transparent;
          scrollbar-width: thin;
      }
-     /* ::-webkit-scrollbar-thumb */
      
      chat-send-message {
          display: none;
@@ -131,6 +130,7 @@ customElements.define('chat-application',
 
       // ----- EVENT LISTENERS ------ //
 
+      // New username.
       this.loginArea.addEventListener('username-set', (event) => {
         this.#jsonData.username = event.detail.username
         this.loginArea.style.display = 'none'
@@ -139,6 +139,7 @@ customElements.define('chat-application',
         this.updateUsernameDiv.style.display = 'flex'
       })
 
+      // Message from user to be dispatched to socket.
       this.sendMessageField.addEventListener('user-message', (event) => {
         console.log(event.detail.message)
         const dataMessage = event.detail.message
@@ -146,6 +147,7 @@ customElements.define('chat-application',
         this.socket.send(JSON.stringify(this.#jsonData))
       })
 
+      // User want to change username.
       this.updateUsername.addEventListener('clicked', (event) => {
         this.loginArea.style.display = 'block'
         this.messageField.style.display = 'none'
@@ -181,40 +183,13 @@ customElements.define('chat-application',
       if (data.data) {
         const element = document.createElement('chat-recieved-message')
         element.usernameAndMessage(data.data, data.username)
-        if (data.username === this.username) {
+        if (data.username === this.#jsonData.username) {
           element.setAttribute('self', '')
         }
 
         this.messageField.append(element)
-        // element.scrollIntoView()
-      }
-    }
 
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
-    }
-
-    /**
-     * Attributes to monitor for changes.
-     *
-     * @returns {string[]} A string array of attributes to monitor.
-     */
-    static get observedAttributes () {
-      return ['value']
-    }
-
-    /**
-     * Called when observed attribute(s) changes.
-     *
-     * @param {string} name - The attribute's name.
-     * @param {*} oldValue - The old value.
-     * @param {*} newValue - The new value.
-     */
-    attributeChangedCallback (name, oldValue, newValue) {
-      if (name === newValue) {
-        console.log()
+        this.messageField.scrollTop = this.messageField.scrollHeight
       }
     }
   }
