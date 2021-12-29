@@ -8,6 +8,7 @@
 import '../chat-send-message'
 import '../chat-recieved-message'
 import '../chat-login'
+import '../my-custom-button'
 
 /*
 * Define template.
@@ -25,6 +26,27 @@ template.innerHTML = `
          min-height: 100%;
          min-width: 100%;
          background: #e1fdff;
+         padding-top: 10px;
+     }
+
+     #updateUsernameDiv {
+       display: none;
+       align-items: center;
+     }
+
+     ::part(buttonArea) {
+       height: 20px;
+       width: 30px;
+       margin-left: 4px;
+      }
+
+     ::part(buttonText) {
+       font-size: 0.7rem;
+      }
+
+     p {
+       margin: 0;
+       font-size: 0.9rem;
      }
 
      #loginArea {
@@ -41,6 +63,8 @@ template.innerHTML = `
          background: white;
          margin: 4px;
          overflow-y: scroll;
+         scrollbar-color: gray transparent;
+         scrollbar-width: thin;
      }
      /* ::-webkit-scrollbar-thumb */
      
@@ -53,6 +77,11 @@ template.innerHTML = `
          height: min-content;
      }
    </style>
+   <div id="updateUsernameDiv">
+     <p>Change your username: </p>
+     <my-custom-button id="updateUsername">OK</my-custom-button>
+    </div>
+   
    <div id="loginArea">
      <chat-login></chat-login>
    </div>
@@ -83,6 +112,8 @@ customElements.define('chat-application',
       this.messageField = this.shadowRoot.querySelector('#messageField')
       this.sendMessageField = this.shadowRoot.querySelector('chat-send-message')
       this.loginArea = this.shadowRoot.querySelector('#loginArea')
+      this.updateUsernameDiv = this.shadowRoot.querySelector('#updateUsernameDiv')
+      this.updateUsername = this.shadowRoot.querySelector('#updateUsername')
 
       this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
 
@@ -96,6 +127,8 @@ customElements.define('chat-application',
 
       this.checkIfLoggedIn()
 
+      this.socket.addEventListener('message', this.gotNewMessage.bind(this))
+
       // ----- EVENT LISTENERS ------ //
 
       this.loginArea.addEventListener('username-set', (event) => {
@@ -103,6 +136,7 @@ customElements.define('chat-application',
         this.loginArea.style.display = 'none'
         this.messageField.style.display = 'flex'
         this.sendMessageField.style.display = 'flex'
+        this.updateUsernameDiv.style.display = 'flex'
       })
 
       this.sendMessageField.addEventListener('user-message', (event) => {
@@ -112,7 +146,12 @@ customElements.define('chat-application',
         this.socket.send(JSON.stringify(this.#jsonData))
       })
 
-      this.socket.addEventListener('message', this.gotNewMessage.bind(this))
+      this.updateUsername.addEventListener('clicked', (event) => {
+        this.loginArea.style.display = 'block'
+        this.messageField.style.display = 'none'
+        this.sendMessageField.style.display = 'none'
+        this.updateUsernameDiv.style.display = 'none'
+      })
     }
 
     /**
@@ -125,6 +164,7 @@ customElements.define('chat-application',
         this.loginArea.style.display = 'none'
         this.messageField.style.display = 'flex'
         this.sendMessageField.style.display = 'flex'
+        this.updateUsernameDiv.style.display = 'flex'
       } else {
         this.loginArea.style.display = 'block'
       }

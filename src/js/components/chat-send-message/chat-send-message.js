@@ -18,6 +18,7 @@ template.innerHTML = `
          display: flex;
          justify-content: space-around;
          align-items: center;
+         margin-bottom: 30px;
      }
 
      #textField {
@@ -108,7 +109,7 @@ customElements.define('chat-send-message',
       this.dispatchEvent(new CustomEvent('user-message', {
         detail: { message: this.textInput.value }
       }))
-      this.textField.textContent = ''
+      this.textField.reset()
       this.textInput.focus()
       event.preventDefault()
     }

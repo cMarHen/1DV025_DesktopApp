@@ -16,8 +16,8 @@ template.innerHTML = `
 
     #window {
         display: flex;
-        height: 100%;
-        width: 100%;
+        height: min-content;
+        width: min-content;
         background: white;
         overflow: hidden;
     }

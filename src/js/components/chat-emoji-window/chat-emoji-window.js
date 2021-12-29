@@ -26,14 +26,23 @@ template.innerHTML = `
       }
 
       #noWindow {
-        height: 20px;
-        width: 20px;
+        height: 25px;
+        width: 25px;
         background-image: url(${BACKGROUND_EMOJI});
         background-size: 100%;
         background-position: cover;
         position: absolute;
-        left: 100px;
-        top: 100%;
+        border-radius: 0 0 5px 5px;
+        border-left: 2px solid gray;
+        border-bottom: 2px solid gray;
+        border-right: 2px solid gray;
+        box-shadow: inset 0 0 10px #62908d;
+        left: 80px;
+        top: 4px;
+      }
+
+      #noWindow:hover {
+        box-shadow: inset 0 0 10px #334d4b;
       }
 
       #clickedWindow {
@@ -42,9 +51,16 @@ template.innerHTML = `
         height: 180px;
         width: 230px;
         position: absolute;
-        top: -190px;
+        top: -177px;
+        left: -100px;
         box-shadow: inset 0 0 5px gray;
         overflow-y: scroll;
+        scrollbar-color: gray transparent;
+        scrollbar-width: thin;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: black;
       }
 
       p {
