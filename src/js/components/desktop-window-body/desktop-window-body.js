@@ -19,6 +19,7 @@ template.innerHTML = `
         height: min-content;
         width: min-content;
         background: white;
+      resize: both;
         overflow: hidden;
     }
 
@@ -52,8 +53,8 @@ template.innerHTML = `
 
   <div id="window" part="contentWindow">
     <slot name="app"></slot>
-    <div id="downLeft" draggable="true"></div>
-    <div id="downRight" draggable="true"></div>
+    <!-- <div id="downLeft" ></div>
+    <div id="downRight" ></div> -->
   </div>
  `
 
@@ -74,44 +75,44 @@ customElements.define('desktop-window-body',
         .appendChild(template.content.cloneNode(true))
 
       this.windowWrapper = this.shadowRoot.querySelector('#window')
-      this.resizeDownLeft = this.shadowRoot.querySelector('#downLeft')
+      /* this.resizeDownLeft = this.shadowRoot.querySelector('#downLeft')
       this.resizeDownRight = this.shadowRoot.querySelector('#downRight')
 
       this.resizingRightStart = this.resizingRightStart.bind(this)
-      this.resizingRight = this.resizingRight.bind(this)
+      this.resizingRight = this.resizingRight.bind(this) */
     }
 
     /**
      * Resizing the window.
      */
-    resizingRightStart () {
+    /* resizingRightStart () {
       this.addEventListener('dragover', this.resizingRight)
-    }
+    } */
 
     /**
      * Resizing the window.
      *
      * @param {*} event - The event.
      */
-    resizingRight (event) {
+    /* resizingRight (event) {
       console.log(event.offsetY)
       this.windowWrapper.style.width = `${event.offsetX + 14}px`
       this.windowWrapper.style.height = `${event.offsetY + 14}px`
       event.stopPropagation()
       event.preventDefault()
-    }
+    } */
 
     /**
      * Called after the element is inserted into the DOM.
      */
-    connectedCallback () {
+    /* connectedCallback () {
       // Det här i det omgivande elementet kanske?
       this.resizeDownRight.addEventListener('dragstart', this.resizingRightStart)
 
       this.resizeDownRight.addEventListener('dragend', (event) => {
         this.removeEventListener('dragover', this.resizingRight)
       })
-    }
+    } */
 
     /**
      * Attributes to monitor for changes.
