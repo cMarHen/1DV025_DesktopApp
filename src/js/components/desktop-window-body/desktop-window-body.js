@@ -19,7 +19,7 @@ template.innerHTML = `
         height: min-content;
         width: min-content;
         background: white;
-      resize: both;
+        resize: both;
         overflow: hidden;
     }
 

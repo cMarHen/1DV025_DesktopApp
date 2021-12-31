@@ -129,7 +129,6 @@ customElements.define('shooter-astroid-field',
 
       this.astroidField = this.shadowRoot.querySelector('#astroidField')
       this.scoreBoard = this.shadowRoot.querySelector('#score')
-      this.timer = this.shadowRoot.querySelector('#timer')
       this.bottomArea = this.shadowRoot.querySelector('#bottomArea')
       this.shooterCannon = this.shadowRoot.querySelector('shooter-cannon')
       this.tickingUpTimer = this.shadowRoot.querySelector('my-custom-timer')
@@ -142,7 +141,7 @@ customElements.define('shooter-astroid-field',
       })
 
       this.astroidField.addEventListener('animationend', (event) => {
-        this.astroidField.innerHTML = ''
+        this.astroidField.innerText = ''
         const totalTime = this.tickingUpTimer.stopTimer()
         clearTimeout(this.playTimer)
         this.dispatchEvent(new window.CustomEvent('game-over', {
@@ -176,7 +175,9 @@ customElements.define('shooter-astroid-field',
      * @param {number} speed - The initiate speed for the astroids.
      */
     startGame (speed) {
+      // In case there are current timers.
       clearTimeout(this.playTimer)
+      this.tickingUpTimer.stopTimer()
 
       this.scoreBoard.setAttribute('value', 0)
       this.tickingUpTimer.startTimer(10, 2)

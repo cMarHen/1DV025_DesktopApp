@@ -107,8 +107,12 @@ customElements.define('shooter-area-main',
       this.introWindow = this.shadowRoot.querySelector('#introWindow')
       this.gameoverWindow = this.shadowRoot.querySelector('#gameoverWindow')
       this.resultText = this.shadowRoot.querySelector('#resultText')
+      this.playAgainButton = this.shadowRoot.querySelector('#playAgainButton')
 
-      this.addEventListener('username-set', this.startGame)
+      // On username set
+      // this.addEventListener('username-set', this.startGame)
+
+      // Play again-button
       this.addEventListener('clicked', this.startGame)
 
       this.astroidGame.addEventListener('game-over', (event) => {
@@ -125,6 +129,7 @@ customElements.define('shooter-area-main',
      * @param {*} event - The event.
      */
     startGame (event) {
+      console.log('stARTED')
       this.introWindow.style.display = 'none'
       this.gameoverWindow.style.display = 'none'
       this.astroidGame.startGame(6000)
