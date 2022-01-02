@@ -16,6 +16,8 @@ import '../my-highscore-component'
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 const ASTROID_SHOOTER_ICON = (new URL('./images/shooter-icon.png', import.meta.url)).href
 const MEMORY_ICON = (new URL('./images/lnu-symbol.png', import.meta.url)).href
+const CHAT_ICON = (new URL('./images/chat-icon.png', import.meta.url)).href
+const HIGHSCORE_ICON = (new URL('./images/highscore-icon.png', import.meta.url)).href
 
 /*
 * Define template.
@@ -44,6 +46,7 @@ template.innerHTML = `
         width: 100%;
         height: 100px;
         justify-content: center;
+        overflow: hidden;
      }
 
     #desktopScreen {
@@ -58,17 +61,23 @@ template.innerHTML = `
       position: absolute;
     }
 
+    .icon {
+      background-size: 80%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
     #shooter {
       background-image: url(${ASTROID_SHOOTER_ICON});
-        background-size: 100%;
-        background-repeat: no-repeat;
-        background-position: cover;
     }
     #memory {
       background-image: url(${MEMORY_ICON});
-        background-size: 80%;
-        background-repeat: no-repeat;
-        background-position: center;
+    }
+    #chat {
+      background-image: url(${CHAT_ICON});
+    }
+    #highscore {
+      background-image: url(${HIGHSCORE_ICON});
     }
 
 </style>
@@ -84,18 +93,18 @@ template.innerHTML = `
       <memory-application slot="app"></memory-application>
     </desktop-screen-window> -->
 
-    <desktop-screen-window id="window2" zindex="2">
+    <!-- <desktop-screen-window id="window2" zindex="2">
       <my-highscore-component slot="app"></my-highscore-component>
-    </desktop-screen-window>
+    </desktop-screen-window> -->
 </div>
 
 
 <div id="navWrapper">
        <desktop-navbar>
-          <div id="shooter" slot="icon1" tabindex="0" title="Astroid Shooter"></div>
+          <div id="shooter" class="icon" slot="icon1" tabindex="0" title="Astroid Shooter"></div>
           <div id="memory" class="icon" slot="icon2" tabindex="0" title="Memory Game"></div>
           <div id="chat" class="icon" slot="icon3" tabindex="0" title="Chat Application"></div> 
-          <div id="highscore" slot="icon4" tabindex="0"  title="Highscore Application"></div>
+          <div id="highscore" class="icon" slot="icon4" tabindex="0"  title="Highscore Application"></div>
        </desktop-navbar>
    </div>
 

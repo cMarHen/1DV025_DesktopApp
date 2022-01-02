@@ -26,7 +26,7 @@ template.innerHTML = `
 
      :host(:hover) {
        transition: 500ms;
-       transform: translateY(20px);
+       transform: translateY(10px);
      }
 
      #iconWrapper {
