@@ -15,43 +15,43 @@ template.innerHTML = `
     <style>
   :host {
       display: flex;
-      width: 100%;
-      height: 100%;
+      height: 60vh;
+      width: 50vw;
       box-shadow: inset 0 0 10px rgba(240, 222, 201, 0.9);
       background: radial-gradient(rgba(240, 222, 201, 0.9), rgba(240, 181, 213, 0.449));
       flex-direction: column;
   }
 
-  #wrapper {
-      display: flex;
-      justify-content: center;
+  #tabWrapper {
+    display: flex;
+    justify-content: center;
   }
 
-  #wrapper div {
-      display: flex;
+  ::part(buttonArea) {
+    border-radius: 0 0 5px 5px;
+    width: 130px;
+  }
+
+  .notHidden {
+    display: flex !important;
+  }
+
+  .olWrapper {
+      display: none;
       flex-direction: column;
+      justify-content: center;
       align-items: center;
   }
 
-  #shooter {
-      height: 30vh;
-      width: 20vw;
-  }
-  #memory {
+  #shooter, #memory {
       height: 30vh;
       width: 20vw;
   }
 
   h4 {
-      
     border-left: 1px solid black;
       border-right: 1px solid black;
       padding: 0 20px 0 20px;
-  }
-
-  h2{
-      margin-left: auto;
-      margin-right: auto;
   }
 
   ol {
@@ -65,28 +65,24 @@ template.innerHTML = `
       margin-left: 20px; 
   }
  
-      ::part(buttonText) {
-      }
- 
-      ::part(buttonArea) {
-         height: 25px;
-         width: 50px;
-     }
-      ::part(buttonArea):hover {
-     }
- 
     </style>
-    <h2>Top Score:</h2>
-    <div id="wrapper">     
-     <div>
+    <div id="tabWrapper">
+      <my-custom-button id="memoryButton" class="tab" name="olMemory">Memory Game</my-custom-button>
+      <my-custom-button id="shooterButton" class="tab" name="olShooter">Astroid Shooter</my-custom-button>
+    </div> 
+  <div class="wrapper">
+      <div class="olWrapper notHidden">
+         <h4>This is the page for all highscores. Choose a game to inspect.</h4>
+     </div>
+     <div class="olWrapper" id="olShooter">
          <h4>Astroid Shooter</h4>
          <ol id="shooter"></ol>
      </div>
-     <div>
+     <div class="olWrapper" id="olMemory">
          <h4>Memory Game</h4>
          <ol id="memory"></ol>
      </div>
-    </div>
+   </div>
 
     
   `
@@ -107,7 +103,14 @@ customElements.define('my-highscore-component',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
+      this.tabWrapper = this.shadowRoot.querySelector('#tabWrapper')
+
       this.updateHighscore()
+
+      this.tabWrapper.addEventListener('clicked', (event) => {
+        Array.from(this.shadowRoot.querySelectorAll('.olWrapper')).map(x => x.classList.remove('notHidden'))
+        this.shadowRoot.querySelector(`#${event.target.name}`).classList.add('notHidden')
+      })
     }
 
     /**

@@ -20,12 +20,12 @@ template.innerHTML = `
        border: 1px solid rgba(78,205,242,1);
        width: min-content;
        transform: translateY(70px);
-       transition: 1000ms;
-       z-index: Infinity;
+       transition: 700ms;
+       z-index: 10000;
      }
 
      :host(:hover) {
-       transition: 700ms;
+       transition: 500ms;
        transform: translateY(20px);
      }
 

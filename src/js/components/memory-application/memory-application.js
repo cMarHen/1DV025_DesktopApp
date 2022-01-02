@@ -54,8 +54,11 @@ template.innerHTML = `
     }
 
     #bottomArea h5 {
+      display: flex;
         border-left: 1px solid gray;
         padding-left: 10px;
+        margin: 0;
+        width: 60px;
         display: inherit;
     }
 
@@ -88,7 +91,7 @@ template.innerHTML = `
       border-radius: 4px;
       box-shadow: inset 0 0 5px gray;
       position: absolute;
-      top: 100px;
+      top: 30px;
     }
 
 </style>

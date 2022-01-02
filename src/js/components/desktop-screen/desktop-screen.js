@@ -84,9 +84,9 @@ template.innerHTML = `
       <memory-application slot="app"></memory-application>
     </desktop-screen-window> -->
 
-    <!-- <desktop-screen-window id="window2" zindex="2">
+    <desktop-screen-window id="window2" zindex="2">
       <my-highscore-component slot="app"></my-highscore-component>
-    </desktop-screen-window> -->
+    </desktop-screen-window>
 </div>
 
 
@@ -178,7 +178,11 @@ customElements.define('desktop-screen',
     })
 
     this.desktopScreen.addEventListener('highscore-update', (event) => {
-      this.shadowRoot.querySelector('my-highscore-component').updateHighscore()
+      try {
+        this.shadowRoot.querySelector('my-highscore-component').updateHighscore()
+      } catch (error) {
+        console.info('INFO: No current highscore-window open.')
+      }
     })
   }
 

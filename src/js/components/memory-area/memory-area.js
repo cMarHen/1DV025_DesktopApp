@@ -21,16 +21,18 @@ template.innerHTML = `
 
     #mainArea {
         display: grid;
-        gap: 20px 0;
+        justify-content: center;
+        padding: 5px;
+        gap: 20px 4px;
         position: relative;
-        box-sizing: border-box;
         overflow: hidden;
-        height: 100%;
+        height: min-content;
     }
 
     #mainArea > * {
         display: flex;
         justify-self: center;
+        align-items: center;
     }
 
     #winDiv {
@@ -47,7 +49,7 @@ template.innerHTML = `
       height: 30vh;
       width: 20vw;
       background-image: url(${THUMBS_UP});
-      background-size: 80%;
+      background-size: 60%;
       background-repeat: no-repeat;
       background-position: center;
     }
@@ -184,7 +186,7 @@ customElements.define('memory-area',
      */
     attributeChangedCallback (name, oldValue, newValue) {
       if (name === 'difficulty') {
-        this.mainArea.innerHTML = ''
+        this.mainArea.innerText = ''
 
         switch (newValue) {
           case 'easy':
