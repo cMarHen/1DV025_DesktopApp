@@ -109,30 +109,56 @@ customElements.define('shooter-area-main',
       this.resultText = this.shadowRoot.querySelector('#resultText')
       this.playAgainButton = this.shadowRoot.querySelector('#playAgainButton')
 
-      // On username set
-      // this.addEventListener('username-set', this.startGame)
+      // --- Event Listeners ----
 
-      // Play again-button
+      this.addEventListener('username-set', (event) => {
+        this.username = event.detail.username
+      })
+
       this.addEventListener('clicked', this.startGame)
 
       this.astroidGame.addEventListener('game-over', (event) => {
         this.resultText.textContent = ''
         this.gameoverWindow.style.display = 'flex'
+        this.totalTime = event.detail.time
         const str = `Your shot down ${event.detail.score} astroids, and it took ${event.detail.time}s to massacre you.`
         this.resultText.append(str)
+        this.setToStorage()
       })
     }
 
     /**
      * Starts game.
-     *
-     * @param {*} event - The event.
      */
-    startGame (event) {
-      console.log('stARTED')
+    startGame () {
       this.introWindow.style.display = 'none'
       this.gameoverWindow.style.display = 'none'
       this.astroidGame.startGame(6000)
+    }
+
+    /**
+     * Set result to local storage.
+     */
+    setToStorage () {
+      const data = []
+
+      // Push current quiz highscore to array.
+      if (window.localStorage.highscore) {
+        data.push(JSON.parse(window.localStorage.highscore).flat())
+      }
+
+      data.push({
+        shooter: {
+          username: this.username,
+          time: this.totalTime
+        }
+      })
+      window.localStorage.setItem('highscore', JSON.stringify(data))
+
+      this.dispatchEvent(new CustomEvent('highscore-update', {
+        bubbles: true,
+        detail: { name: 'shooter', type: 'descending' }
+      }))
     }
   }
 )

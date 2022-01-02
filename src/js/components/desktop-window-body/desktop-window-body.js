@@ -16,11 +16,15 @@ template.innerHTML = `
 
     #window {
         display: flex;
-        height: min-content;
-        width: min-content;
+        height: 100%;
+        width: 100%;
         background: white;
         resize: both;
         overflow: hidden;
+    }
+
+    ::-webkit-resizer {
+      display: none;
     }
 
     #downRight {

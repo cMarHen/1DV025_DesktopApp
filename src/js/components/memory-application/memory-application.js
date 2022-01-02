@@ -160,7 +160,10 @@ customElements.define('memory-application',
       // EVENT LISTENERS
       // -----------------
 
-      this.usernameInput.addEventListener('username-set', this.setDifficulty)
+      this.usernameInput.addEventListener('username-set', (event) => {
+        this.username = event.detail.username
+        this.setDifficulty()
+      })
 
       this.memoryArea.addEventListener('match', (event) => {
         this.updateScoreMatch()
@@ -170,10 +173,10 @@ customElements.define('memory-application',
       })
 
       this.memoryArea.addEventListener('all-matched', (event) => {
-        const time = this.tickingUpTimer.stopTimer()
+        this.totalTime = this.tickingUpTimer.stopTimer()
+        this.setToStorage()
         this.introDiv.style.display = 'block'
         this.setDifficulty()
-        console.log('Game Over!' + time)
       })
     }
 
@@ -219,5 +222,30 @@ customElements.define('memory-application',
       tryCounter.textContent = tryCounter.textContent
         ? Number(tryCounter.textContent) + 1
         : 1
+    }
+
+    /**
+     * Set result to local storage.
+     */
+    setToStorage () {
+      const data = []
+
+      // Push current quiz highscore to array.
+      if (window.localStorage.highscore) {
+        data.push(JSON.parse(window.localStorage.highscore).flat())
+      }
+
+      data.push({
+        memory: {
+          username: this.username,
+          time: this.totalTime
+        }
+      })
+      window.localStorage.setItem('highscore', JSON.stringify(data))
+
+      this.dispatchEvent(new CustomEvent('highscore-update', {
+        bubbles: true,
+        detail: { name: 'memory', type: 'ascending' }
+      }))
     }
   })

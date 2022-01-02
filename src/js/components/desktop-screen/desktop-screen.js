@@ -11,6 +11,7 @@ import '../memory-application'
 import '../shooter-area-main'
 import '../my-custom-timer'
 import '../chat-application'
+import '../my-highscore-component'
 
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 const ASTROID_SHOOTER_ICON = (new URL('./images/shooter-icon.png', import.meta.url)).href
@@ -83,7 +84,10 @@ template.innerHTML = `
     <!-- <desktop-screen-window name="window1">
       <memory-application slot="app"></memory-application>
     </desktop-screen-window> -->
-    <!-- <my-custom-timer></my-custom-timer> -->
+
+    <!-- <desktop-screen-window id="window2" zindex="2">
+      <my-highscore-component slot="app"></my-highscore-component>
+    </desktop-screen-window> -->
 </div>
 
 
@@ -91,11 +95,8 @@ template.innerHTML = `
        <desktop-navbar>
           <div id="shooter" slot="icon1" tabindex="0"></div>
           <div id="memory" class="icon" slot="icon2" tabindex="0"></div>
-          <div id="chat" class="icon" slot="icon3" tabindex="0">
-          <h5>Chat</h5>
-          </div> 
-          
-          <div class="icon" slot="icon4" tabindex="0"></div>
+          <div id="chat" class="icon" slot="icon3" tabindex="0"></div> 
+          <div id="highscore" slot="icon4" tabindex="0"></div>
        </desktop-navbar>
    </div>
 
@@ -114,6 +115,11 @@ template.innerHTML = `
   <template id="shooterTemplate">
     <desktop-screen-window>
       <shooter-area-main slot="app"></shooter-area-main>
+    </desktop-screen-window>
+  </template>
+  <template id="highscoreTemplate">
+    <desktop-screen-window>
+      <my-highscore-component slot="app"></my-highscore-component>
     </desktop-screen-window>
   </template>
 
@@ -154,7 +160,6 @@ customElements.define('desktop-screen',
     // -- EVENT LISTENERS -- //
 
     this.navBar.addEventListener('icon-request', (event) => {
-      console.log(event.detail.id)
       this.appendNewWindow(event.detail.id)
     })
 
@@ -171,6 +176,10 @@ customElements.define('desktop-screen',
 
     this.desktopScreen.addEventListener('dragend', (event) => {
       this.removeEventListener('dragover', this.windowDragOver)
+    })
+
+    this.desktopScreen.addEventListener('highscore-update', (event) => {
+      this.shadowRoot.querySelector('my-highscore-component').updateHighscore()
     })
   }
 

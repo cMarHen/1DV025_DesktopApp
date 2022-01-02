@@ -27,6 +27,11 @@ self.addEventListener('activate', (event) => {
   console.info('ServiceWorker: Activated version', version)
   // TODO: Clean up older versions of the cache
 
+  /**
+   * Clean up old versions.
+   *
+   * @returns {*} - The return.
+   */
   const removeCachedAssets = async () => {
     const cacheKeys = await self.caches.keys()
 
@@ -44,6 +49,12 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(removeCachedAssets())
 })
 
+/**
+ * When online, cache the objects to be used if offline.
+ *
+ * @param {*} request - The request.
+ * @returns {*} - The return.
+ */
 const cachedFetch = async (request) => {
   try {
     const response = await fetch(request)
@@ -63,14 +74,4 @@ self.addEventListener('fetch', (event) => {
 
   console.info('ServiceWorker: Fetching')
   event.respondWith(cachedFetch(event.request))
-})
-
-self.addEventListener('message', (event) => {
-  console.info('ServiceWorker: Got a message')
-  // TODO: Handle events from the main application
-})
-
-self.addEventListener('push', (event) => {
-  console.info('ServiceWorker: Got a push message from the server')
-  // TODO: Show a notification for the user
 })
