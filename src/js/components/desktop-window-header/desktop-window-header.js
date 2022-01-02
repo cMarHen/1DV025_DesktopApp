@@ -36,8 +36,12 @@ template.innerHTML = `
         background-color: #4CAF50;
     }
 
+    button:hover {
+      box-shadow: inset 1px 1px 2px black;
+    }
+
 </style>
-<button id="closeButton">X</button>
+<button id="closeButton" part="closeButton">X</button>
  `
 
 /*
@@ -59,38 +63,10 @@ customElements.define('desktop-window-header',
       this.closeButton = this.shadowRoot.querySelector('#closeButton')
 
       this.closeButton.addEventListener('click', (event) => {
-        this.dispatchEvent(new window.CustomEvent('closeWindow', {
+        this.dispatchEvent(new CustomEvent('closeWindow', {
           bubbles: true
         }))
       })
-    }
-
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
-    }
-
-    /**
-     * Attributes to monitor for changes.
-     *
-     * @returns {string[]} A string array of attributes to monitor.
-     */
-    static get observedAttributes () {
-      return ['value']
-    }
-
-    /**
-     * Called when observed attribute(s) changes.
-     *
-     * @param {string} name - The attribute's name.
-     * @param {*} oldValue - The old value.
-     * @param {*} newValue - The new value.
-     */
-    attributeChangedCallback (name, oldValue, newValue) {
-      if (name === newValue) {
-        console.log()
-      }
     }
   }
 )

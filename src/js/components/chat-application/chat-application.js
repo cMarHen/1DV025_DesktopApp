@@ -141,7 +141,6 @@ customElements.define('chat-application',
 
       // Message from user to be dispatched to socket.
       this.sendMessageField.addEventListener('user-message', (event) => {
-        console.log(event.detail.message)
         const dataMessage = event.detail.message
         this.#jsonData.data = dataMessage
         this.socket.send(JSON.stringify(this.#jsonData))
@@ -179,7 +178,6 @@ customElements.define('chat-application',
      */
     gotNewMessage (event) {
       const data = JSON.parse(event.data)
-      console.log(data)
       if (data.data) {
         const element = document.createElement('chat-recieved-message')
         element.usernameAndMessage(data.data, data.username)

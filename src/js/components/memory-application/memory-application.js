@@ -114,9 +114,6 @@ template.innerHTML = `
     <my-custom-button name="easy">Easy</my-custom-button>
     <my-custom-button name="medium">Medium</my-custom-button>
     <my-custom-button name="hard">Hard</my-custom-button>
-    <!-- <button name="easy">EASY</button>
-    <button name="medium">MEDIUM</button>
-    <button name="hard">HARD</button> -->
   </div>
 </div>
 `
@@ -192,7 +189,7 @@ customElements.define('memory-application',
     /**
      * Starts game.
      *
-     * @param {*} event - The event.
+     * @param {object} event - The event.
      */
     startGame (event) {
       if (event.target.name) {

@@ -155,13 +155,6 @@ customElements.define('shooter-astroid-field',
     }
 
     /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
-      //  this.startGame(5000)
-    }
-
-    /**
      * Called when element is removed from the DOM.
      */
     disconnectedCallback () {

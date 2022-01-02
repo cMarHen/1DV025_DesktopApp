@@ -82,7 +82,6 @@ customElements.define('chat-recieved-message',
         .appendChild(template.content.cloneNode(true))
 
       this.messageTemplate = this.shadowRoot.querySelector('#messageTemplate').content.cloneNode(true)
-      console.log(this.messageTemplate)
     }
 
     /**

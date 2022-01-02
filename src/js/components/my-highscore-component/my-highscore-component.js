@@ -77,12 +77,7 @@ template.innerHTML = `
  
     </style>
     <h2>Top Score:</h2>
-    <div id="wrapper">
-     <!-- <input id="inputText" type="text">
-     <my-custom-button>
-       <slot></slot>
-     </my-custom-button> -->
-     
+    <div id="wrapper">     
      <div>
          <h4>Astroid Shooter</h4>
          <ol id="shooter"></ol>
@@ -126,13 +121,11 @@ customElements.define('my-highscore-component',
       if (type === 'descending') {
         return data.sort((a, b) => Object.values(b)[0].time - Object.values(a)[0].time)
           .slice(0, 5)
-          .filter(i => i !== undefined)
       }
 
       if (type === 'ascending') {
         return data.sort((a, b) => Object.values(a)[0].time - Object.values(b)[0].time)
           .slice(0, 5)
-          .filter(i => i !== undefined)
       }
     }
 

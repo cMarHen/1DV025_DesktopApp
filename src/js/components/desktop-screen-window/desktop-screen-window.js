@@ -32,13 +32,6 @@ template.innerHTML = `
     <slot name="app" slot="app"></slot>
   </desktop-window-body>
   </div>
-<!-- <div id="windowWrapper">
-<desktop-window-header draggable="true"></desktop-window-header>
-<desktop-window-body>
-  <slot name="app" slot="app"></slot>
-</desktop-window-body>
-</div> -->
-<!-- HÄR BÖRJAR JAG ÄNDRA!! -->
 `
 
 /*
@@ -61,8 +54,6 @@ customElements.define('desktop-screen-window',
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
       this.screenRect = this.getBoundingClientRect()
 
-      console.log(this.clientHeight)
-
       this.windowDragStart = this.windowDragStart.bind(this)
       this.windowDragOver = this.windowDragOver.bind(this)
 
@@ -77,13 +68,6 @@ customElements.define('desktop-screen-window',
           bubbles: true
         }))
       })
-
-      // Listener for screen dragging.
-      // this.screenHeader.addEventListener('dragstart', this.windowDragStart)
-
-      /* this.screenHeader.addEventListener('dragend', (event) => {
-        this.removeEventListener('dragover', this.windowDragOver)
-      }) */
     }
 
     /**
@@ -124,17 +108,11 @@ customElements.define('desktop-screen-window',
         left = this.offsetLeft - 6
       }
 
-      /* console.log(this.offsetTop)
-      console.log(wrapperRect.height)
-      console.log('----------------')
-      console.log(this.screenRect.height) */
-
       // Handle y-lead dragging stop.
       if (this.offsetTop <= 3) {
         top = 4
       } else if (this.offsetTop + wrapperRect.height >= window.innerHeight) {
         top = this.offsetTop - 6
-        console.log('hejdååå')
       }
 
       this.dispatchEvent(new CustomEvent('move-window', {
@@ -144,20 +122,8 @@ customElements.define('desktop-screen-window',
           y: top
         }
       }))
-
-      /* console.log(wrapperRect) */
-      // console.log(this.windowWrapper.offsetLeft)
-
-      /* this.style.left = `${left}px`
-      this.style.top = `${top}px` */
       event.stopPropagation()
       event.preventDefault()
-    }
-
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
     }
 
     /**

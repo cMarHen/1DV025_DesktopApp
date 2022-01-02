@@ -24,8 +24,6 @@ customElements.define('my-custom-timer',
  * Represents a countup-timer element.
  */
   class extends HTMLElement {
-    #ascendingTimer
-    #descendingTimer
     /**
      * Creates an instance of the current type.
      */
@@ -34,20 +32,6 @@ customElements.define('my-custom-timer',
       this.attachShadow({ mode: 'open' }).append(template.content.cloneNode(true))
 
       this.timerTextElement = this.shadowRoot.querySelector('#timer')
-
-      this.#ascendingTimer = 0
-      this.#descendingTimer = 0
-
-      this.addEventListener('click', (event) => {
-        this.stopTimer()
-      })
-    }
-
-    /**
-     * Initialize the counter.
-     */
-    connectedCallback () {
-      // this.startTimer(1000)
     }
 
     /**

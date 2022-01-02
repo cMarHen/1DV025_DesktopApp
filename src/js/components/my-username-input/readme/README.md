@@ -22,7 +22,7 @@ Returns: None.
 
 | Event Name | Fired When |
 |------------|------------|
-| `cclicked`| When button is clicked.
+| `clicked`| When button is clicked.
 
 ## Example
 

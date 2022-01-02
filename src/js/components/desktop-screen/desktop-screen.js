@@ -53,10 +53,9 @@ template.innerHTML = `
     }
 
     desktop-screen-window {
-      width: min-content;
-      height: min-content;
+      width: 100%;
+      height: 100%;
       position: absolute;
-      left: 20px;
     }
 
     #shooter {
@@ -93,10 +92,10 @@ template.innerHTML = `
 
 <div id="navWrapper">
        <desktop-navbar>
-          <div id="shooter" slot="icon1" tabindex="0"></div>
-          <div id="memory" class="icon" slot="icon2" tabindex="0"></div>
-          <div id="chat" class="icon" slot="icon3" tabindex="0"></div> 
-          <div id="highscore" slot="icon4" tabindex="0"></div>
+          <div id="shooter" slot="icon1" tabindex="0" title="Astroid Shooter"></div>
+          <div id="memory" class="icon" slot="icon2" tabindex="0" title="Memory Game"></div>
+          <div id="chat" class="icon" slot="icon3" tabindex="0" title="Chat Application"></div> 
+          <div id="highscore" slot="icon4" tabindex="0"  title="Highscore Application"></div>
        </desktop-navbar>
    </div>
 
@@ -189,6 +188,7 @@ customElements.define('desktop-screen',
    * @param {*} id - The type of app to open.
    */
   appendNewWindow (id) {
+    console.log(id)
     const element = this.shadowRoot.querySelector(`#${id}Template`).content.cloneNode(true)
     element.firstElementChild.id = `window${this.#idToUse}`
     this.#idToUse += 1
@@ -216,7 +216,6 @@ customElements.define('desktop-screen',
    * @param {*} event - The event.
    */
   windowDragStart (event) {
-    console.log(event.target)
     this.windowElement = this.shadowRoot.querySelector(`#${event.target.id}`)
     this.pointerX = event.clientX
     this.pointerY = event.clientY

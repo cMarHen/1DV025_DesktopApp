@@ -61,12 +61,7 @@ template.innerHTML = `
      }
 
    </style>
-   <div id="iconWrapper"><!-- 
-     <div class="icon"></div>
-     <div class="icon"></div>
-     <div class="icon"></div>
-     <div class="icon"></div> -->
-
+   <div id="iconWrapper">
      <slot class="icon" name="icon1"></slot>
      <slot class="icon" name="icon2"></slot>
      <slot class="icon" name="icon3"></slot>
@@ -109,34 +104,6 @@ customElements.define('desktop-navbar',
           }))
         }
       })
-    }
-
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
-    }
-
-    /**
-     * Attributes to monitor for changes.
-     *
-     * @returns {string[]} A string array of attributes to monitor.
-     */
-    static get observedAttributes () {
-      return ['value']
-    }
-
-    /**
-     * Called when observed attribute(s) changes.
-     *
-     * @param {string} name - The attribute's name.
-     * @param {*} oldValue - The old value.
-     * @param {*} newValue - The new value.
-     */
-    attributeChangedCallback (name, oldValue, newValue) {
-      if (name === newValue) {
-        console.log()
-      }
     }
   }
 )
