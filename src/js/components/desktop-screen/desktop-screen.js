@@ -53,8 +53,8 @@ template.innerHTML = `
     }
 
     desktop-screen-window {
-      width: 100%;
-      height: 100%;
+      width: min-content;
+      height: min-content;
       position: absolute;
     }
 

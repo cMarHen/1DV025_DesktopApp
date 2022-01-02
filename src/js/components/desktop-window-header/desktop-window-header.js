@@ -26,7 +26,7 @@ template.innerHTML = `
         height: 17px;
         width: 17px;
         padding: 0 3px;
-        margin: 0;
+        margin: 0 9px 0 0;
         left: 90%;
         text-decoration: none;
         font-size: 80%;
@@ -41,6 +41,7 @@ template.innerHTML = `
     }
 
 </style>
+<button id="fullscreenButton" part="closeButton">&#x26F6;</button>
 <button id="closeButton" part="closeButton">X</button>
  `
 
@@ -61,9 +62,16 @@ customElements.define('desktop-window-header',
         .appendChild(template.content.cloneNode(true))
 
       this.closeButton = this.shadowRoot.querySelector('#closeButton')
+      this.fullscreenButton = this.shadowRoot.querySelector('#fullscreenButton')
 
       this.closeButton.addEventListener('click', (event) => {
         this.dispatchEvent(new CustomEvent('closeWindow', {
+          bubbles: true
+        }))
+      })
+
+      this.fullscreenButton.addEventListener('click', (event) => {
+        this.dispatchEvent(new CustomEvent('require-fullscreen', {
           bubbles: true
         }))
       })

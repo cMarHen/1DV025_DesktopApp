@@ -50,7 +50,7 @@ customElements.define('desktop-screen-window',
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
 
-      this.windowScreen = this.shadowRoot.querySelector('desktop-window-window')
+      this.windowBody = this.shadowRoot.querySelector('desktop-window-body')
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
       this.screenRect = this.getBoundingClientRect()
 
@@ -65,6 +65,15 @@ customElements.define('desktop-screen-window',
 
       this.screenHeader.addEventListener('closeWindow', (event) => {
         this.dispatchEvent(new window.CustomEvent('closeWindow', {
+          bubbles: true
+        }))
+      })
+
+      this.screenHeader.addEventListener('require-fullscreen', (event) => {
+        this.windowBody.toggleAttribute('fullscreen')
+        this.style.left = '0'
+        this.style.top = '0'
+        this.dispatchEvent(new window.CustomEvent('require-fullscreen', {
           bubbles: true
         }))
       })
