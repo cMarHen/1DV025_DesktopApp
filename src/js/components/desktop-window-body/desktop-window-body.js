@@ -24,8 +24,8 @@ template.innerHTML = `
     }
 
     .fullscreen {      
-      height: 95vh !important;
-        width: 97vw !important;
+      height: 98vh !important;
+        width: 100vw !important;
     }
 
     ::-webkit-resizer {

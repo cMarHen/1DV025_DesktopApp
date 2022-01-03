@@ -76,6 +76,7 @@ template.innerHTML = `
          height: min-content;
      }
    </style>
+   
    <div id="updateUsernameDiv">
      <p>Change your username: </p>
      <my-custom-button id="updateUsername">OK</my-custom-button>
@@ -84,6 +85,7 @@ template.innerHTML = `
    <div id="loginArea">
      <chat-login></chat-login>
    </div>
+
     <div id="messageField">
        <chat-recieved-message></chat-recieved-message>
     </div>

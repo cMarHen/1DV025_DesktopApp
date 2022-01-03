@@ -201,7 +201,6 @@ customElements.define('desktop-screen',
    * @param {*} id - The type of app to open.
    */
   appendNewWindow (id) {
-    console.log(id)
     const element = this.shadowRoot.querySelector(`#${id}Template`).content.cloneNode(true)
     element.firstElementChild.id = `window${this.#idToUse}`
     this.#idToUse += 1

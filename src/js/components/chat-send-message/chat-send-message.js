@@ -37,14 +37,14 @@ template.innerHTML = `
      chat-emoji-window {
        position: absolute;
        top: 90%;
-       left: 65%;
+       left: -20px;
      }
 
      ::part(buttonText) {
      }
 
      ::part(buttonArea) {
-      width: 20px;
+      width: 60px;
       height: 100%;
       background: white;
       box-shadow: inset 0 0 1px black;
@@ -58,7 +58,7 @@ template.innerHTML = `
    </style>
     <form id="textField">
        <textarea id="textInput"></textarea>
-       <my-custom-button id="sendButton"></my-custom-button>
+       <my-custom-button id="sendButton">SEND</my-custom-button>
        <chat-emoji-window></chat-emoji-window>
     </form>
  `
@@ -103,7 +103,7 @@ customElements.define('chat-send-message',
     /**
      * Send a new message.
      *
-     * @param {*} event - The event.
+     * @param {object} event - The event.
      */
     sendMessage (event) {
       this.dispatchEvent(new CustomEvent('user-message', {

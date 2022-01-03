@@ -1,4 +1,12 @@
-const version = '1.0.1'
+/**
+ * Module as a service worker.
+ * Taken from https://youtu.be/YQEzSET35fw
+ *
+ * @author Martin Henriksson <mh225wd@student.lnu.se>
+ * @version 1.0.0
+ */
+
+const version = '1.0.2'
 
 self.addEventListener('install', (event) => {
   console.info('ServiceWorker: Installed version ', version)
