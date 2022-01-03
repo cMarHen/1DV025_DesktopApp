@@ -141,10 +141,19 @@ customElements.define('desktop-screen',
    * Represents a component.
    */
   class extends HTMLElement {
+  /**
+   * The z-index to use next.
+   */
   #zIndexToUse
 
+  /**
+   * The id to use next.
+   */
   #idToUse
 
+  /**
+   * The position to use next.
+   */
   #positionToUse
 
   /**

@@ -130,18 +130,12 @@ customElements.define('memory-application',
  */
   class extends HTMLElement {
     /**
-     * How many points the player should be given for each match
-     */
-    #pointsPerMatch
-    /**
      * Creates an instance of the current type.
      */
     constructor () {
       super()
       this.attachShadow({ mode: 'open' })
         .appendChild(template.content.cloneNode(true))
-
-      this.#pointsPerMatch = 10
 
       this.levelChoice = this.shadowRoot.querySelector('#levelChoice')
       this.appArea = this.shadowRoot.querySelector('#appArea')
@@ -198,8 +192,9 @@ customElements.define('memory-application',
       if (event.target.name) {
         this.levelChoice.style.display = 'none'
         this.introDiv.style.display = 'none'
+        this.difficulty = event.target.name
 
-        this.memoryArea.setAttribute('difficulty', event.target.name)
+        this.memoryArea.setAttribute('difficulty', this.difficulty)
         this.memoryArea.removeAttribute('hidden')
         this.tickingUpTimer.startTimer(10, 2)
       }
@@ -238,7 +233,8 @@ customElements.define('memory-application',
       data.push({
         memory: {
           username: this.username,
-          time: this.totalTime
+          time: this.totalTime,
+          difficulty: this.difficulty
         }
       })
       window.localStorage.setItem('highscore', JSON.stringify(data))

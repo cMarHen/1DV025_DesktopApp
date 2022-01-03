@@ -195,6 +195,9 @@ customElements.define('memory-area',
           case 'medium':
             this.createGrid(4, 2)
             break
+          case 'hard':
+            this.createGrid(4, 4)
+            break
           default:
             this.createGrid(4, 4)
             break
