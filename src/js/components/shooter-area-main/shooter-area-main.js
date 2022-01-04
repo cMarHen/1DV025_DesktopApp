@@ -7,6 +7,7 @@
 
 import '../shooter-astriod-field'
 import '../my-custom-button'
+import '../my-username-input'
 
 const COMMAND_BRIDGE = (new URL('./images/command-bridge.jpg', import.meta.url)).href
 
@@ -37,7 +38,6 @@ template.innerHTML = `
 
      .messageWindow {
        position: absolute;
-       z-index: 1;
        height: 70%;
        width: 70%;
        display: flex;

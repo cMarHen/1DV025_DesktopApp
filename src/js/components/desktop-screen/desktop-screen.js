@@ -70,16 +70,16 @@ template.innerHTML = `
         background-position: center;
     }
 
-    #shooter {
+    #shooter-area-main {
       background-image: url(${ASTROID_SHOOTER_ICON});
     }
-    #memory {
+    #memory-application {
       background-image: url(${MEMORY_ICON});
     }
-    #chat {
+    #chat-application {
       background-image: url(${CHAT_ICON});
     }
-    #highscore {
+    #my-highscore-component {
       background-image: url(${HIGHSCORE_ICON});
     }
 
@@ -104,36 +104,12 @@ template.innerHTML = `
 
 <div id="navWrapper">
        <desktop-navbar>
-          <div id="shooter" class="icon" slot="icon1" tabindex="0" title="Astroid Shooter"></div>
-          <div id="memory" class="icon" slot="icon2" tabindex="0" title="Memory Game"></div>
-          <div id="chat" class="icon" slot="icon3" tabindex="0" title="Chat Application"></div> 
-          <div id="highscore" class="icon" slot="icon4" tabindex="0"  title="Highscore Application"></div>
+          <div id="shooter-area-main" class="icon" slot="icon1" tabindex="0" title="Astroid Shooter"></div>
+          <div id="memory-application" class="icon" slot="icon2" tabindex="0" title="Memory Game"></div>
+          <div id="chat-application" class="icon" slot="icon3" tabindex="0" title="Chat Application"></div> 
+          <div id="my-highscore-component" class="icon" slot="icon4" tabindex="0"  title="Highscore Application"></div>
        </desktop-navbar>
    </div>
-
-<!-- APP TEMPLATES -->
-
-  <template id="memoryTemplate">
-    <desktop-screen-window>
-      <memory-application slot="app"></memory-application>
-    </desktop-screen-window>
-  </template>
-  <template id="chatTemplate">
-    <desktop-screen-window>
-    <chat-application slot="app"></chat-application>
-    </desktop-screen-window>
-  </template>
-  <template id="shooterTemplate">
-    <desktop-screen-window>
-      <shooter-area-main slot="app"></shooter-area-main>
-    </desktop-screen-window>
-  </template>
-  <template id="highscoreTemplate">
-    <desktop-screen-window>
-      <my-highscore-component slot="app"></my-highscore-component>
-    </desktop-screen-window>
-  </template>
-
 `
 
 /*
@@ -213,63 +189,43 @@ customElements.define('desktop-screen',
    * @param {string} id - The type of app to open.
    */
   async appendNewWindow (id) {
-    // Lazy load the element.
-    await this.importElement(id)
+    console.log(id)
+    // Lazy load and create the element.
+    const desktopApp = await this.importAndCreateElement(id)
+    desktopApp.slot = 'app'
 
-    const element = this.shadowRoot.querySelector(`#${id}Template`).content.cloneNode(true)
-    element.firstElementChild.id = `window${this.#idToUse}`
-    this.#idToUse += 1
-    this.#positionToUse += 5
+    const desktopWindow = document.createElement('desktop-screen-window')
+    desktopWindow.append(desktopApp)
 
-    /* await import('../chat-application')
-    await import('../my-highscore-component')
-    await import('../shooter-area-main')
-    await import('../memory-application') */
-
-    /*  async #createCustomElement (elementName) {
-      if (typeof elementName !== 'string') {
-        return
-      }
-
-      // Lazy-load application by trying to import it, if import fails show error-message.
-      try {
-        await import( @vite-ignore ../${elementName}/)
-        return document.createElement(elementName)
-      } catch {
-        this.#showWarning(constants.ERROR_IMPORT)
-      } */
+    desktopWindow.zindex = this.#zIndexToUse
+    desktopWindow.id = `window${this.#idToUse}`
 
     // New position for each window.
     if (this.#idToUse < 500) {
-      element.firstElementChild.style.left = `${this.#positionToUse}px`
-      element.firstElementChild.style.top = `${this.#positionToUse}px`
+      desktopWindow.style.left = `${this.#positionToUse}px`
+      desktopWindow.style.top = `${this.#positionToUse}px`
     } else {
-      element.firstElementChild.style.left = '500px'
-      element.firstElementChild.style.top = '500px'
+      desktopWindow.style.left = '500px'
+      desktopWindow.style.top = '500px'
     }
 
-    // To make sure the new window is displayed on top.
-    element.firstElementChild.setAttribute('zindex', this.#zIndexToUse)
+    this.#idToUse += 1
+    this.#positionToUse += 5
     this.#zIndexToUse += 1
 
-    this.desktopScreen.append(element)
+    this.desktopScreen.append(desktopWindow)
   }
 
   /**
    * Takes an id and import the corresponding url.
    *
    * @param {string} id - The id of wanted element.
+   * @returns {Promise<HTMLElement>} - The created element.
    */
-  async importElement (id) {
-    const elementIDs = {
-      memory: '../memory-application',
-      shooter: '../shooter-area-main',
-      highscore: '../my-highscore-component',
-      chat: '../chat-application'
-    }
-
+  async importAndCreateElement (id) {
     try {
-      await import(elementIDs[id])
+      await import(/* @vite-ignore */`../${id}`)
+      return document.createElement(`${id}`)
     } catch (error) {
       // TODO: Show warning
       console.info('Couldn\'t import from url. ')
@@ -282,6 +238,7 @@ customElements.define('desktop-screen',
    * @param {object} event - The event.
    */
   windowDragStart (event) {
+    console.log(event.target)
     this.windowElement = this.shadowRoot.querySelector(`#${event.target.id}`)
     this.pointerX = event.clientX
     this.pointerY = event.clientY
