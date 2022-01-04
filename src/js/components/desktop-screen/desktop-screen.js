@@ -7,11 +7,14 @@
 
 import '../desktop-screen-window'
 import '../desktop-navbar'
-import '../memory-application'
+/* import '../memory-application'
 import '../shooter-area-main'
-import '../my-custom-timer'
 import '../chat-application'
-import '../my-highscore-component'
+import '../my-highscore-component' */
+/* await import('../chat-application')
+await import('../my-highscore-component')
+await import('../shooter-area-main')
+await import('../memory-application') */
 
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 const ASTROID_SHOOTER_ICON = (new URL('./images/shooter-icon.png', import.meta.url)).href
@@ -170,7 +173,7 @@ customElements.define('desktop-screen',
     this.#zIndexToUse = 1
     this.#idToUse = 1
     this.#positionToUse = 20
-    this.screenRect = this.getBoundingClientRect()
+
     this.windowDragStart = this.windowDragStart.bind(this)
     this.windowDragOver = this.windowDragOver.bind(this)
 
@@ -207,13 +210,34 @@ customElements.define('desktop-screen',
   /**
    * Create a new window. Set an unique id to the element.
    *
-   * @param {*} id - The type of app to open.
+   * @param {string} id - The type of app to open.
    */
-  appendNewWindow (id) {
+  async appendNewWindow (id) {
+    // Lazy load the element.
+    await this.importElement(id)
+
     const element = this.shadowRoot.querySelector(`#${id}Template`).content.cloneNode(true)
     element.firstElementChild.id = `window${this.#idToUse}`
     this.#idToUse += 1
     this.#positionToUse += 5
+
+    /* await import('../chat-application')
+    await import('../my-highscore-component')
+    await import('../shooter-area-main')
+    await import('../memory-application') */
+
+    /*  async #createCustomElement (elementName) {
+      if (typeof elementName !== 'string') {
+        return
+      }
+
+      // Lazy-load application by trying to import it, if import fails show error-message.
+      try {
+        await import( @vite-ignore ../${elementName}/)
+        return document.createElement(elementName)
+      } catch {
+        this.#showWarning(constants.ERROR_IMPORT)
+      } */
 
     // New position for each window.
     if (this.#idToUse < 500) {
@@ -224,7 +248,7 @@ customElements.define('desktop-screen',
       element.firstElementChild.style.top = '500px'
     }
 
-    // To make sure is displayed on top.
+    // To make sure the new window is displayed on top.
     element.firstElementChild.setAttribute('zindex', this.#zIndexToUse)
     this.#zIndexToUse += 1
 
@@ -232,25 +256,53 @@ customElements.define('desktop-screen',
   }
 
   /**
+   * Takes an id and import the corresponding url.
+   *
+   * @param {string} id - The id of wanted element.
+   */
+  async importElement (id) {
+    const elementIDs = {
+      memory: '../memory-application',
+      shooter: '../shooter-area-main',
+      highscore: '../my-highscore-component',
+      chat: '../chat-application'
+    }
+
+    try {
+      await import(elementIDs[id])
+    } catch (error) {
+      // TODO: Show warning
+      console.info('Couldn\'t import from url. ')
+    }
+  }
+
+  /**
    * Handles window start dragging.
    *
-   * @param {*} event - The event.
+   * @param {object} event - The event.
    */
   windowDragStart (event) {
     this.windowElement = this.shadowRoot.querySelector(`#${event.target.id}`)
     this.pointerX = event.clientX
     this.pointerY = event.clientY
 
-    event.dataTransfer.setDragImage(event.target, window.outerWidth, window.outerHeight)
+    // setDragImage solution from:
+    // https://stackoverflow.com/questions/7680285/how-do-you-turn-off-setdragimage#comment43433666_7680619
+
+    const img = document.createElement('img')
+    img.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'
+
+    event.dataTransfer.setDragImage(img, 0, 0)
     this.addEventListener('dragover', this.windowDragOver)
   }
 
   /**
    * Handles window moving.
    *
-   * @param {*} event - The event.
+   * @param {object} event - The event.
    */
   windowDragOver (event) {
+    const screenRect = this.getBoundingClientRect()
     const wrapperRect = this.windowElement.getBoundingClientRect()
 
     // To update the coordinates.
@@ -265,7 +317,7 @@ customElements.define('desktop-screen',
     // Handle x-lead dragging stop.
     if (this.windowElement.offsetLeft < 0) {
       left = 2
-    } else if (this.windowElement.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
+    } else if (this.windowElement.offsetLeft + wrapperRect.width >= screenRect.width - 6) {
       left = this.windowElement.offsetLeft - 6
     }
 

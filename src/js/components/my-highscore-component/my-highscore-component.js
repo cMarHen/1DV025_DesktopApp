@@ -165,7 +165,9 @@ customElements.define('my-highscore-component',
     updateHighscore () {
       if (!localStorage.highscore) { return }
 
-      this.shadowRoot.querySelector('ol').innerText = ''
+      for (const el of Array.from(this.shadowRoot.querySelectorAll('ol'))) {
+        el.innerText = ''
+      }
 
       const data = JSON.parse(localStorage.highscore).flat()
 

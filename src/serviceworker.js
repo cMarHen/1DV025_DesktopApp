@@ -6,7 +6,7 @@
  * @version 1.0.0
  */
 
-const version = '1.0.2'
+const version = '1.0.3'
 
 self.addEventListener('install', (event) => {
   console.info('ServiceWorker: Installed version ', version)
