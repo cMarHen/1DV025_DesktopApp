@@ -20,9 +20,11 @@ if ('serviceWorker' in navigator) {
   })
 }
 
-const webWorker = new Worker('./webWorker')
-Notification.requestPermission((permission) => {
-  if (permission === 'granted') {
-    webWorker.postMessage('NotifyAJoke')
-  }
-})
+if (('Notification' in window)) {
+  const webWorker = new Worker('./webWorker')
+  Notification.requestPermission((permission) => {
+    if (permission === 'granted') {
+      webWorker.postMessage('NotifyAJoke')
+    }
+  })
+}

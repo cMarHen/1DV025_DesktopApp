@@ -34,6 +34,11 @@ template.innerHTML = `
        align-items: center;
      }
 
+     #buttonWrapper {
+       display: flex;
+       justify-content: space-around;
+     }
+
      ::part(buttonArea) {
        height: 20px;
        width: 30px;
@@ -75,13 +80,26 @@ template.innerHTML = `
      chat-recieved-message {
          height: min-content;
      }
+
+     #notificationButton[activated]::part(buttonArea) {
+       box-shadow: inset 0 0 15px #370259;
+      } 
+
+     #notificationButton::part(buttonArea) {
+       height: 40px;
+       width: 70px;
+       margin: 3px 10px 3px 4px;
+      }
+
    </style>
-   
-   <div id="updateUsernameDiv">
-     <p>Change your username: </p>
-     <my-custom-button id="updateUsername">OK</my-custom-button>
+   <div id="buttonWrapper">
+    <my-custom-button id="notificationButton">Toggle Notification</my-custom-button>
+    
+    <div id="updateUsernameDiv">
+      <p>Change your username: </p>
+      <my-custom-button id="updateUsername">OK</my-custom-button>
     </div>
-   
+    </div>
    <div id="loginArea">
      <chat-login></chat-login>
    </div>
@@ -90,6 +108,8 @@ template.innerHTML = `
        <chat-recieved-message></chat-recieved-message>
     </div>
     <chat-send-message></chat-send-message>
+    
+   
  `
 
 /*
@@ -115,6 +135,7 @@ customElements.define('chat-application',
       this.loginArea = this.shadowRoot.querySelector('#loginArea')
       this.updateUsernameDiv = this.shadowRoot.querySelector('#updateUsernameDiv')
       this.updateUsername = this.shadowRoot.querySelector('#updateUsername')
+      this.notificationButton = this.shadowRoot.querySelector('#notificationButton')
 
       this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
 
@@ -155,6 +176,10 @@ customElements.define('chat-application',
         this.sendMessageField.style.display = 'none'
         this.updateUsernameDiv.style.display = 'none'
       })
+
+      this.notificationButton.addEventListener('clicked', (event) => {
+        this.notificationButton.toggleAttribute('activated')
+      })
     }
 
     /**
@@ -190,6 +215,17 @@ customElements.define('chat-application',
         this.messageField.append(element)
 
         this.messageField.scrollTop = this.messageField.scrollHeight
+      }
+
+      if ('Notification' in window) {
+        if (this.notificationButton.hasAttribute('activated') && data.data) {
+          const webWorker = new Worker('./webWorker')
+          Notification.requestPermission((permission) => {
+            if (permission === 'granted') {
+              webWorker.postMessage('newChatMessage')
+            }
+          })
+        }
       }
     }
   }

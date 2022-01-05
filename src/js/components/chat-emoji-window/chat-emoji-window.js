@@ -52,7 +52,7 @@ template.innerHTML = `
         width: 230px;
         position: absolute;
         top: -177px;
-        left: -100px;
+        left: 100px;
         box-shadow: inset 0 0 5px gray;
         overflow-y: scroll;
         scrollbar-color: gray transparent;
