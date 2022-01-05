@@ -7,14 +7,6 @@
 
 import '../desktop-screen-window'
 import '../desktop-navbar'
-/* import '../memory-application'
-import '../shooter-area-main'
-import '../chat-application'
-import '../my-highscore-component' */
-/* await import('../chat-application')
-await import('../my-highscore-component')
-await import('../shooter-area-main')
-await import('../memory-application') */
 
 const BACKGROUND_IMG = (new URL('./images/desktop-background.jpg', import.meta.url)).href
 const ASTROID_SHOOTER_ICON = (new URL('./images/shooter-icon.png', import.meta.url)).href
@@ -189,7 +181,6 @@ customElements.define('desktop-screen',
    * @param {string} id - The type of app to open.
    */
   async appendNewWindow (id) {
-    console.log(id)
     // Lazy load and create the element.
     const desktopApp = await this.importAndCreateElement(id)
     desktopApp.slot = 'app'

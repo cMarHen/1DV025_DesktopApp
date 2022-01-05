@@ -33,7 +33,6 @@ self.addEventListener('install', (event) => {
 
 self.addEventListener('activate', (event) => {
   console.info('ServiceWorker: Activated version', version)
-  // TODO: Clean up older versions of the cache
 
   /**
    * Clean up old versions.
@@ -57,29 +56,27 @@ self.addEventListener('activate', (event) => {
   event.waitUntil(removeCachedAssets())
 })
 
+self.addEventListener('fetch', (event) => {
+  // TODO: Cache new resources when online and serve cached content if offline
 /**
  * When online, cache the objects to be used if offline.
  *
  * @param {*} request - The request.
  * @returns {*} - The return.
  */
-const cachedFetch = async (request) => {
-  try {
-    const response = await fetch(request)
+  const cachedFetch = async (request) => {
+    try {
+      const response = await fetch(request)
 
-    const cache = await self.caches.open(version)
-    cache.put(request, response.clone())
+      const cache = await self.caches.open(version)
+      cache.put(request, response.clone())
 
-    return response
-  } catch {
-    console.info('ServiceWorker: Serving cached result')
-    return caches.match(request)
+      return response
+    } catch {
+      console.info('ServiceWorker: Serving cached result')
+      return self.caches.match(request)
+    }
   }
-}
-
-self.addEventListener('fetch', (event) => {
-  // TODO: Cache new resources when online and serve cached content if offline
-
   console.info('ServiceWorker: Fetching')
   event.respondWith(cachedFetch(event.request))
 })

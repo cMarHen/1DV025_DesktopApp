@@ -9,6 +9,7 @@ import './components/desktop-screen'
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
+    // Get a Chuck Norris-joke as a notification.
     try {
       const registration = await navigator.serviceWorker.register('./serviceworker.js')
 
@@ -18,3 +19,10 @@ if ('serviceWorker' in navigator) {
     }
   })
 }
+
+const webWorker = new Worker('./webWorker')
+Notification.requestPermission((permission) => {
+  if (permission === 'granted') {
+    webWorker.postMessage('NotifyAJoke')
+  }
+})
