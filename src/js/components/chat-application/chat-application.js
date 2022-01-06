@@ -26,7 +26,6 @@ template.innerHTML = `
          min-height: 100%;
          min-width: 100%;
          background: #e1fdff;
-         padding-top: 10px;
      }
 
      #updateUsernameDiv {

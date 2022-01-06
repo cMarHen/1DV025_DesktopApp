@@ -229,7 +229,6 @@ customElements.define('desktop-screen',
    * @param {object} event - The event.
    */
   windowDragStart (event) {
-    console.log(event.target)
     this.windowElement = this.shadowRoot.querySelector(`#${event.target.id}`)
     this.pointerX = event.clientX
     this.pointerY = event.clientY
@@ -280,28 +279,6 @@ customElements.define('desktop-screen',
     this.windowElement.style.top = `${top}px`
     event.stopPropagation()
     event.preventDefault()
-  }
-
-  /**
-   * Attributes to monitor for changes.
-   *
-   * @returns {string[]} A string array of attributes to monitor.
-   */
-  static get observedAttributes () {
-    return ['name']
-  }
-
-  /**
-   * Called when observed attribute(s) changes.
-   *
-   * @param {string} name - The attribute's name.
-   * @param {*} oldValue - The old value.
-   * @param {*} newValue - The new value.
-   */
-  attributeChangedCallback (name, oldValue, newValue) {
-    if (name === 'name') {
-      this.id = name
-    }
   }
   }
 )

@@ -20,10 +20,6 @@ template.innerHTML = `
         width: 100%;
     }
 
-    #windowWrapper {
-
-    }
-
 
 </style>
 <div id="windowWrapper">
@@ -52,10 +48,6 @@ customElements.define('desktop-screen-window',
 
       this.windowBody = this.shadowRoot.querySelector('desktop-window-body')
       this.screenHeader = this.shadowRoot.querySelector('desktop-window-header')
-      this.screenRect = this.getBoundingClientRect()
-
-      this.windowDragStart = this.windowDragStart.bind(this)
-      this.windowDragOver = this.windowDragOver.bind(this)
 
       this.addEventListener('mousedown', (event) => {
         this.dispatchEvent(new window.CustomEvent('require-focus', {
@@ -77,62 +69,6 @@ customElements.define('desktop-screen-window',
           bubbles: true
         }))
       })
-    }
-
-    /**
-     * Handles window moving.
-     *
-     * @param {*} event - The event.
-     */
-    windowDragStart (event) {
-      this.pointerX = event.clientX
-      this.pointerY = event.clientY
-
-      event.dataTransfer.setDragImage(event.target, window.outerWidth, window.outerHeight)
-
-      this.addEventListener('dragover', this.windowDragOver)
-    }
-
-    /**
-     * Handles window moving.
-     *
-     * @param {*} event - The event.
-     */
-    windowDragOver (event) {
-      const wrapperRect = this.getBoundingClientRect()
-
-      // To update the coordinates.
-      const windowX = this.pointerX - event.clientX
-      const windowY = this.pointerY - event.clientY
-      this.pointerX = event.clientX
-      this.pointerY = event.clientY
-
-      let left = this.offsetLeft - windowX
-      let top = this.offsetTop - windowY
-
-      // Handle x-lead dragging stop.
-      if (this.offsetLeft < 0) {
-        left = 2
-      } else if (this.offsetLeft + wrapperRect.width >= this.screenRect.width - 6) {
-        left = this.offsetLeft - 6
-      }
-
-      // Handle y-lead dragging stop.
-      if (this.offsetTop <= 3) {
-        top = 4
-      } else if (this.offsetTop + wrapperRect.height >= window.innerHeight) {
-        top = this.offsetTop - 6
-      }
-
-      this.dispatchEvent(new CustomEvent('move-window', {
-        bubbles: true,
-        detail: {
-          x: left,
-          y: top
-        }
-      }))
-      event.stopPropagation()
-      event.preventDefault()
     }
 
     /**

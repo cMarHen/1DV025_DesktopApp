@@ -50,8 +50,6 @@ template.innerHTML = `
       box-shadow: inset 0 0 1px black;
     }
      ::part(buttonArea):hover {
-      width: 20px;
-      height: 100%;
       box-shadow: inset 0 0 3px #432854;
     }
 
