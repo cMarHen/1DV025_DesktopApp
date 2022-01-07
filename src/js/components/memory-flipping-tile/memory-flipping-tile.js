@@ -159,7 +159,7 @@ customElements.define('flipping-tile',
     /**
      * Specifies whether this instance contains the same content as another tile.
      *
-     * @param {*} other - The tile to test for equality
+     * @param {HTMLElement} other - The tile to test for equality
      * @returns {boolean} true if other has the same content as this tile instance.
      */
     isEqual (other) {

@@ -178,7 +178,7 @@ customElements.define('shooter-astroid-field',
       this.#score = 0
       this.scoreBoard.textContent = this.#score
 
-      // For the shooter
+      // For the shooter cannon-animation
       this.addEventListener('mousemove', (event) => {
         const pointerRelToMidX = event.offsetX - this.offsetWidth / 2
         const pointerY = this.offsetHeight - event.offsetY

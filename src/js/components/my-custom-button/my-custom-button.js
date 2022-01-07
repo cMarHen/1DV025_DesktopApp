@@ -11,10 +11,6 @@
 const template = document.createElement('template')
 template.innerHTML = `
    <style>
-     :host {
-
-     }
-
      #button {
          outline: none;
          border: none;
@@ -77,12 +73,6 @@ customElements.define('my-custom-button',
         }))
         event.preventDefault()
       })
-    }
-
-    /**
-     * Called after the element is inserted into the DOM.
-     */
-    connectedCallback () {
     }
 
     /**

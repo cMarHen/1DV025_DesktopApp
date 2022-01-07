@@ -79,7 +79,7 @@ customElements.define('my-username-input',
     /**
      * Set username to local storage.
      *
-     * @param {*} event - The event.
+     * @param {object} event - The event.
      */
     setUsername (event) {
       if (this.type) {

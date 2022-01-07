@@ -20,8 +20,7 @@ template.innerHTML = `
         align-items: center;
         height: 100%;
         width: 100%;
-        /* background: #e1fdff; <---- USE THIS  */
-        background: white;
+        background: #e1fdff;
     }
 
 </style>

@@ -22,7 +22,7 @@ template.innerHTML = `
         display: flex;
         flex-direction: column;
         align-items: flex-end;
-        background: green;
+        background: rgba(76,162,66,0.7);
       }
 
       :host([self]) > *::after {

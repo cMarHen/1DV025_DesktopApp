@@ -11,9 +11,6 @@
 const template = document.createElement('template')
 template.innerHTML = `
    <style>
-    :host {
-    }
-
     #window {
         display: flex;
         height: 100%;
@@ -31,12 +28,7 @@ template.innerHTML = `
     ::-webkit-resizer {
       display: none;
     }
-    
-    /* ::slotted(*) {
-      height: 80px;
-      width: 100%;
-    } */
-    
+
 </style>
 
   <div id="window" part="contentWindow">

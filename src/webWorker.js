@@ -1,3 +1,9 @@
+/**
+ * Module as a web worker.
+ *
+ * @author Martin Henriksson <mh225wd@student.lnu.se>
+ * @version 1.0.0
+ */
 
 self.addEventListener('message', async (event) => {
   switch (event.data) {

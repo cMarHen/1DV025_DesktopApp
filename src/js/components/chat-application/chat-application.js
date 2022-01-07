@@ -82,7 +82,7 @@ template.innerHTML = `
 
      #notificationButton[activated]::part(buttonArea) {
        box-shadow: inset 0 0 15px #370259;
-      } 
+      }
 
      #notificationButton::part(buttonArea) {
        height: 40px;
@@ -143,7 +143,8 @@ customElements.define('chat-application',
         data: 'The message text is sent using the data property',
         username: 'anonymous',
         channel: 'my, not so secret, channel',
-        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd'
+        key: 'eDBE76deU7L0H9mEBgxUKVR0VCnq0XBd',
+        id: Math.floor(Math.random() * 100)
       }
 
       this.checkIfLoggedIn()
@@ -199,6 +200,7 @@ customElements.define('chat-application',
 
     /**
      * Parses a new chat message and append it to shadowDOM.
+     * If notifications is toggled, send a new Notification.
      *
      * @param {object} event - The event.
      */
@@ -207,7 +209,7 @@ customElements.define('chat-application',
       if (data.data) {
         const element = document.createElement('chat-recieved-message')
         element.usernameAndMessage(data.data, data.username)
-        if (data.username === this.#jsonData.username) {
+        if (data.id === this.#jsonData.id) {
           element.setAttribute('self', '')
         }
 

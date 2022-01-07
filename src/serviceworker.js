@@ -3,15 +3,13 @@
  * Taken from https://youtu.be/YQEzSET35fw
  *
  * @author Martin Henriksson <mh225wd@student.lnu.se>
- * @version 1.0.0
+ * @version 1.1.0
  */
 
-const version = '1.0.4'
+const version = '1.1.0'
 
 self.addEventListener('install', (event) => {
   console.info('ServiceWorker: Installed version ', version)
-  // TODO: Cache resources needed to start
-
   /**
    * Cache assets when installing the service worker.
    *
@@ -57,7 +55,6 @@ self.addEventListener('activate', (event) => {
 })
 
 self.addEventListener('fetch', (event) => {
-  // TODO: Cache new resources when online and serve cached content if offline
 /**
  * When online, cache the objects to be used if offline.
  *

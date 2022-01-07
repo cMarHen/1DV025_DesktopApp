@@ -39,10 +39,11 @@ template.innerHTML = `
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: space-between;
+      justify-content: space-around;
       position: absolute;
       height: 100%;
       width: 100%;
+      padding-top: 20px;
     }
 
     #thumbsUp {
@@ -106,7 +107,7 @@ customElements.define('memory-area',
     /**
      * Check gameboard and flipped tiles.
      *
-     * @param {*} event - The event.
+     * @param {object} event - The event.
      */
     onFlippedEvent (event) {
       if (this.compareContainer.length >= 2) {
@@ -127,8 +128,8 @@ customElements.define('memory-area',
     /**
      * Compares two tiles if matching.
      *
-     * @param {*} tile1 First tile.
-     * @param {*} tile2 Second tile.
+     * @param {HTMLElement} tile1 First tile.
+     * @param {HTMLElement} tile2 Second tile.
      */
     tileIsEqual (tile1, tile2) {
       setTimeout(() => {
@@ -208,8 +209,8 @@ customElements.define('memory-area',
     /**
      * Creates a grid for main area.
      *
-     * @param {*} column The amount of columns.
-     * @param {*} row The amount of rows.
+     * @param {number} column The amount of columns.
+     * @param {number} row The amount of rows.
      */
     createGrid (column, row) {
       if ((column * row) % 2 !== 0) { return }

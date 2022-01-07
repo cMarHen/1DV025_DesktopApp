@@ -82,10 +82,6 @@ template.innerHTML = `
         background: radial-gradient(circle, rgba(164,232,227,1) 17%, rgba(125,199,198,1) 75%);
     }
 
-    #usernameInput {
-     /*  display: none; */
-    }
-
     #intro {
       padding: 15px;
       border-radius: 4px;
@@ -102,7 +98,7 @@ template.innerHTML = `
 
 <div id="bottomArea">
       <h5>Tries: <span id="tryCounter">0</span></h5>
-      <h5>Points: <span id="pointCounter">0</span></h5>
+
       <h5>TIME: <span id="timeCounter"> <my-custom-timer></my-custom-timer></span></h5>
 </div>
 
@@ -140,7 +136,6 @@ customElements.define('memory-application',
       this.levelChoice = this.shadowRoot.querySelector('#levelChoice')
       this.appArea = this.shadowRoot.querySelector('#appArea')
       this.memoryArea = this.shadowRoot.querySelector('memory-area')
-      this.pointCounter = this.shadowRoot.querySelector('#pointCounter')
       this.tryCounter = this.shadowRoot.querySelector('#tryCounter')
       this.timeCounter = this.shadowRoot.querySelector('#timeCounter')
       this.tickingUpTimer = this.shadowRoot.querySelector('my-custom-timer')
@@ -204,8 +199,6 @@ customElements.define('memory-application',
      * Updates the score counter.
      */
     updateScoreMatch () {
-      this.pointCounter.textContent = Number(this.pointCounter.textContent) + 10
-
       this.tryCounter.textContent = Number(this.tryCounter.textContent) + 1
     }
 
