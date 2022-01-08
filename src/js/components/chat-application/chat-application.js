@@ -136,7 +136,11 @@ customElements.define('chat-application',
       this.updateUsername = this.shadowRoot.querySelector('#updateUsername')
       this.notificationButton = this.shadowRoot.querySelector('#notificationButton')
 
-      this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
+      try {
+        this.socket = new WebSocket('wss://courselab.lnu.se/message-app/socket')
+      } catch (error) {
+        console.info('WEB SOCKET: Could not establish a connection to the server.')
+      }
 
       this.#jsonData = {
         type: 'message',

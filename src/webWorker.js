@@ -22,7 +22,7 @@ self.addEventListener('message', async (event) => {
 })
 
 /**
- * Notify user with a Chuck Norris-joke.
+ * Notify user with a Chuck Norris-joke, if user clicks the notification, a new one appears.
  */
 async function getNewJoke () {
   try {

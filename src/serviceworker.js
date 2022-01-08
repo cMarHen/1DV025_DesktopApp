@@ -35,7 +35,7 @@ self.addEventListener('activate', (event) => {
   /**
    * Clean up old versions.
    *
-   * @returns {*} - The return.
+   * @returns {Promise} Promise that resolves to undefined.
    */
   const removeCachedAssets = async () => {
     const cacheKeys = await self.caches.keys()
@@ -59,7 +59,7 @@ self.addEventListener('fetch', (event) => {
  * When online, cache the objects to be used if offline.
  *
  * @param {*} request - The request.
- * @returns {*} - The return.
+ * @returns {*} - The response object.
  */
   const cachedFetch = async (request) => {
     try {

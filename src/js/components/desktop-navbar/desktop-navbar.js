@@ -90,10 +90,12 @@ customElements.define('desktop-navbar',
       this.iconWrapper = this.shadowRoot.querySelector('#iconWrapper')
 
       this.iconWrapper.addEventListener('click', (event) => {
-        this.dispatchEvent(new CustomEvent('icon-request', {
-          bubbles: true,
-          detail: { id: event.target.id }
-        }))
+        if (event.target.slot) {
+          this.dispatchEvent(new CustomEvent('icon-request', {
+            bubbles: true,
+            detail: { id: event.target.id }
+          }))
+        }
       })
 
       this.iconWrapper.addEventListener('keydown', (event) => {
