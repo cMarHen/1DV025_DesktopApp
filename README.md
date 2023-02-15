@@ -1,10 +1,12 @@
-# Personal Web Desktop (PWD)
+# Personal Web Desktop
+
+> This is a project done in the course 1DV025 @Linnaeus University. The following text are the instructions for the assignment.
 
 ## Introduction
 
 In this examination assignment, you will focus on building a single-page application (SPA) with chat integration against a web socket server. The backend (server-side code) of this assignment will be given, and your assignment is to write the client-side code.
 
-In this assignment, you are supposed to build what we call a "Personal Web Desktop" (PWD). First of all, have a look at this recording to get a better view of the assignment.
+In this assignment, you are supposed to build what we call a "Personal Web Desktop". First of all, have a look at this recording to get a better view of the assignment.
 
 [Demo - Personal Web Desktop](https://youtu.be/gNcMvPCyHC0)
 
